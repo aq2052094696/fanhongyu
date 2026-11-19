@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618樊宏宇 上图下文 Flex 一行三列</title>
+    <style>
+        *{
+            box-sizing: border-box;
+            margin:0;
+            padding:0;
+        }
+        body{
+            min-height: 100vh;
+            margin: 0;
+            padding: 50px 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: radial-gradient(circle at 50% 0%, #24382b 0%, #111d14 55%, #070e09 100%);
+            font-family: "Microsoft YaHei", "PingFang SC", system-ui, sans-serif;
+        }
+        ul{
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+        .list{
+            display: flex;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 1080px;
+            margin: 0 auto;
+            gap: 20px;
+        }
+        .list li{
+            position: relative;
+            width: calc((100% - 40px) / 3);
+            aspect-ratio: 16 / 9;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #162419;
+            box-shadow: 0 10px 24px rgba(0, 0, 0, .55);
+            cursor: pointer;
+            transition: transform .45s cubic-bezier(.2, .8, .3, 1), box-shadow .45s ease;
+            animation: fadeUp .6s ease backwards;
+        }
+        .list li:nth-child(1){ animation-delay: .05s; }
+        .list li:nth-child(2){ animation-delay: .12s; }
+        .list li:nth-child(3){ animation-delay: .19s; }
+        .list li:nth-child(4){ animation-delay: .26s; }
+        .list li:nth-child(5){ animation-delay: .33s; }
+        .list li:nth-child(6){ animation-delay: .40s; }
+        .list li img{
+            width:100%;
+            height:100%;
+            object-fit:cover;
+            filter: brightness(.82) saturate(1.05);
+            transition: transform .6s cubic-bezier(.2, .8, .3, 1), filter .5s ease;
+        }
+        /*播放圆形按钮【修复：统一translate居中，不再用margin】*/
+        .list li::after{
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: rgba(10, 20, 10, .45);
+            border: 2px solid rgba(255, 255, 255, .8);
+            backdrop-filter: blur(4px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, .45);
+            transition: all .38s cubic-bezier(.2, .8, .3, 1);
+            z-index: 3;
+            pointer-events:none;
+        }
+        /*播放三角图标*/
+        .list li::before{
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-38%, -50%);
+            border-style: solid;
+            border-width: 10px 0 10px 17px;
+            border-color: transparent transparent transparent #ffffff;
+            transition: border-color .38s ease;
+            z-index: 4;
+            pointer-events:none;
+        }
+        .list li p{
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 5;
+            padding: 30px 14px 12px;
+            color: #ffffff;
+            font-size: 14px;
+            background: linear-gradient(to top, rgba(0, 0, 0, .9) 0%, rgba(0, 0, 0, .55) 50%, rgba(0, 0, 0, 0) 100%);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            transition: padding .4s ease, color .4s ease;
+            pointer-events:none;
+        }
+        .list li:hover{
+            transform: translateY(-8px);
+            box-shadow: 0 22px 40px rgba(0, 0, 0, .7), 0 0 28px rgba(130, 255, 180, .28);
+        }
+        .list li:hover img{
+            transform: scale(1.09);
+            filter: brightness(1) saturate(1.15);
+        }
+        /*hover缩放，保留translate(-50%,-50%)，只叠加scale，不会抖动！！*/
+        .list li:hover::after{
+            background: rgba(130, 255, 180, .9);
+            border-color: rgba(255, 255, 255, .95);
+            transform: translate(-50%,-50%) scale(1.12);
+        }
+        .list li:hover::before{
+            border-color: transparent transparent transparent #103020;
+        }
+        .list li:hover p{
+            color: #b8ffd4;
+            padding-bottom: 14px;
+        }
+        @keyframes fadeUp{
+            from{opacity: 0;transform: translateY(26px);}
+            to{opacity: 1;transform: translateY(0);}
+        }
+        @media (max-width: 900px){
+            .list li{width: calc((100% - 20px) / 2);}
+        }
+        @media (max-width: 560px){
+            body{padding: 30px 14px;}
+            .list li{width:100%;}
+        }
+        /*弹窗视频*/
+        .video-modal{
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index:999;
+        }
+        .video-modal.show{display:flex;}
+        .video-box{width:70%;position:relative;}
+        .video-box video{width:100%;border-radius:10px;}
+        .close-btn{
+            position:absolute;
+            top:-35px;
+            right:0;
+            color:#fff;
+            font-size:30px;
+            cursor:pointer;
+        }
+    </style>
+</head>
+<body>
+    <ul class="list">
+        <li onclick="openVideo('./video/lion.mp4')">
+            <img src="./img/c7911099-51bb-437b-99cf-01a2c31861bb.jpg" alt="非洲草原狮子">
+            <p>非洲草原狮子</p>
+        </li>
+        <li onclick="openVideo('./video/whale.mp4')">
+            <img src="./img/94f16e94-cff2-4bb2-a96f-98ce22af1bab.jpg" alt="深海鲸鱼迁徙">
+            <p>深海鲸鱼迁徙</p>
+        </li>
+        <li onclick="openVideo('./video/elephant.mp4')">
+            <img src="./img/2d46df61-56bf-48c0-b393-34a80468b18c.jpg" alt="丛林大象家族">
+            <p>丛林大象家族</p>
+        </li>
+        <li onclick="openVideo('./video/penguin.mp4')">
+            <img src="./img/437175a1-29fb-4587-808c-448a0554f005.jpg" alt="南极企鹅生活">
+            <p>南极企鹅生活</p>
+        </li>
+        <li onclick="openVideo('./video/monkey.mp4')">
+            <img src="./img/4d7ee2aa-1a89-4177-84a3-c43ba747612f.jpg" alt="热带雨林金丝猴">
+            <p>热带雨林金丝猴</p>
+        </li>
+        <li onclick="openVideo('./video/fish.mp4')">
+            <img src="./img/d5964a22-9d0b-4753-9bbf-9ad377b34aac.jpg" alt="海洋珊瑚鱼群">
+            <p>海洋珊瑚鱼群</p>
+        </li>
+    </ul>
+    <div class="video-modal" id="videoModal">
+        <div class="video-box">
+            <span class="close-btn" onclick="closeVideo()">×</span>
+            <video id="myVideo" controls>
+                <source src="" type="video/mp4">
+                浏览器不支持视频播放
+            </video>
+        </div>
+    </div>
+    <script>
+        const modal = document.getElementById("videoModal");
+        const video = document.getElementById("myVideo");
+        const source = video.querySelector("source");
+        function openVideo(videoUrl){
+            source.src = videoUrl;
+            video.load();
+            modal.classList.add("show");
+        }
+        function closeVideo(){
+            modal.classList.remove("show");
+            video.pause();
+        }
+        //点击黑色遮罩关闭弹窗
+        modal.addEventListener('click', function(e){
+            if(e.target === modal){
+                closeVideo();
+            }
+        })
+    </script>
+</body>
+</html>

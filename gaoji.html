@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- 这里改成你的姓名 -->
+    <title>樊宏宇 上图下文 绝对定位</title>
+
+    <style>
+        /* 清除浏览器的默认样式 */
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        a {
+            color: #000;
+            text-decoration: none;
+        }
+
+        /* 图片列表 */
+        .list {
+            width: 960px;
+            margin: 20px auto;
+
+            /* 清除浮动 */
+            overflow: hidden;
+        }
+
+        /* 每一个图片项目 */
+        .list li {
+            /* 作为绝对定位文字的参照物 */
+            position: relative;
+
+            float: left;
+            width: 300px;
+            margin: 10px;
+
+            overflow: hidden;
+        }
+
+        /* 图片样式 */
+        .list img {
+            display: block;
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* 图片底部的姓名 */
+        .list p {
+            position: absolute;
+
+            left: 0;
+            bottom: 0;
+
+            width: 100%;
+            margin: 0;
+            line-height: 38px;
+
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-align: center;
+            letter-spacing: 2px;
+
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+    </style>
+</head>
+
+<body>
+    <ul class="list">
+        <li>
+            <a href="#">
+                <img src="./img1/1.jpg" alt="图片1">
+                <p>樊宏宇</p>
+        </li>
+
+        <li>
+            <a href="#">
+                <img src="./img1/2.jpg" alt="图片2">
+                <p>樊宏宇</p>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <img src="./img1/3.jpg" alt="图片3">
+                <p>樊宏宇</p>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <img src="./img1/4.jpg" alt="图片4">
+                <p>樊宏宇</p>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <img src="./img1/5.jpg" alt="图片5">
+                <p>樊宏宇</p>
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                <img src="./img1/6.jpg" alt="图片6">
+                <p>樊宏宇</p>
+            </a>
+        </li>
+    </ul>
+</body>
+</html>

@@ -1,0 +1,5 @@
+# 姓名：樊宏宇 | 学号：24001010618 | 时间：2026-11-19 | 大模型：Tencent Hunyuan Hy
+node_modules/
+.env
+*.log
+.DS_Store

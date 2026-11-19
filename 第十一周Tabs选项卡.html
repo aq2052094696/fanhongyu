@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>26.11.09 樊宏宇 tabs</title>
+    <style>
+        div,body{
+            margin:0;
+            padding:0;
+        }
+        .tab{
+            width: 700px;
+            margin:16px;
+        }
+        .title{
+            display:flex;
+
+        }
+
+        .title span{
+            flex:1;
+            height: 33px;
+            line-height: 33px;
+            text-align: center;
+            background-color: #f7c8d8;
+            color:#6b2b44;
+            cursor: pointer;
+        }
+        .title .active{
+            border-top:#e86a92 1px solid;
+            border-left:#e86a92 1px solid;
+            border-right:#e86a92 1px solid;
+            font-weight: bolder;
+            color:#e86a92;
+            background-color: #fff;
+            margin-bottom:-1px;
+        }
+        .tc{
+            width:100%;
+            border:#e86a92 1px solid;
+            height: 300px;
+            line-height: 300px; 
+            text-align: center;
+            display: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="tab">
+        <div class="title">
+            <span class="active">国际</span>
+            <span>国内</span>
+            <span>大连</span>
+            <span>热点</span>
+        </div> <!-- 这里关闭 title，横向排列到此结束 -->
+
+        <div class="tc" style="display: block;">1国际新闻</div>
+        <div class="tc">2国内新闻</div>
+        <div class="tc">3大连新闻</div>
+        <div class="tc">4热点新闻</div>
+    </div> <!-- 这里关闭 tab -->
+    <script>
+        var tab=document.querySelector('.tab');
+        var title=tab.getElementsByClassName('title')[0];
+        var spans=title.getElementsByTagName('span');
+        var tc=tab.getElementsByClassName('tc');
+        for(var i=0;i<spans.length;i++){
+            spans[i].index=i;
+            spans[i].onmouseover=function(){
+               for(var j=0;j<spans.length;j++){
+                   spans[j].classList.remove('active');
+                    tc[j].style.display='none';
+               }
+               this.classList.add('active');
+                tc[this.index].style.display='block';
+            }
+        }
+    </script>
+</body>
+</html>

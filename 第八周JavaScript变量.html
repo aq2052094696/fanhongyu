@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>樊宏宇 Java Script变量</title>
+</head>
+<body>  
+    <script>
+            var _str="樊宏宇";
+            var _$num=2026;
+            var _age2=18;
+            console.log("姓名: " + _str + ", _str类型：" + typeof _str);
+            console.log("年份: " + _$num + ", _$num类型：" + typeof _$num);
+            console.log("年龄: " + _age2 + ", _age2类型：" + typeof _age2);
+            _str="Java Script";
+            console.log("逻辑运算符的运用");
+            console.log(true && false,true || false,!true);//逻辑运算符
+            console.log(++_$num, _$num--);//自增自减运算符
+            console.log("1"+1,"1"-1);
+            console.log("NaN的运用");
+            console.log(NaN == NaN, NaN ===NaN);
+            console.log("undefined的运用");
+            console.log(undefined == undefined, undefined === undefined);
+            var res= Number("abc");
+            console.log("res:"+res)
+            var d=_$num/0; // 修复：$num → _$num
+            console.log('d:'+d);
+            console.log("isNaN(d):"+isNaN(d),isNaN("abc"),isNaN(123));
+            
+    </script>
+</body>
+</html>

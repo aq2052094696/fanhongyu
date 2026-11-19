@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <table>618 樊宏宇 第一次课-HTML标签</table>
+</head>
+<body>
+    <header id="top">
+        <h1>前端网页设计</h1>
+        <p>课程：HTML、CSS、JavaScript</p>
+        <p><b>内容</b>与<strong>样式</strong>相分离</p>
+        <a href="#id">顶部</a>
+        <a href="#list">课程清单</a>
+        <a href="#ele">HTML元素</a>
+        <a href="#form">表单</a>
+    </header>
+    <main id="main">
+        <div>
+            <h2>HTML标签</h2>
+            <p>HTML标签用于描述网页</p>
+            <p>HTML标签是由尖括号包围的关键词，比如 &lt;html&gt;</p>
+            <p><em>HTML标签通常是成对出现的</em>，比如 &lt;h1&gt; 和 &lt;/h1&gt;</p>
+            <span style="background-color: rgb(193, 226, 74);color: red;">媛宝是傻子</span>
+        </div>
+
+        <section id="list">
+            <h3>课程清单</h3>
+            <ul>
+                <li>工具环境搭建</li>
+                <li>HTML内容</li>
+                <li>css样式与布局</li>
+                <li>JavaScript行为</li>
+            </ul>
+            <ol type="A"> 
+                <li><a href="#">空链接</a></li>
+                <li><a href="https://www.baidu.com/">百度</a></li>
+            </ol>
+        </section>
+        <section id="ele">
+            <h4>块级元素</h4>
+            <h5>h1-h6标签</h5>
+            <div>div标签</div>
+            <p>p标签</p>
+            <ul>
+                <li>ul标签</li>
+                <li>li标签</li>
+            </ul>
+            <h6>行内元素：不一行</h6>
+            <span>span标签</span>
+            <strong>strong标签</strong>
+            <em>em标签</em>
+            <a href="#">a标签</a>
+            <h6>块级行内元素</h6>
+            <img src="./img/1.jpg">
+            <h6>空元素</h6>
+            <img src="./img/2.jpg">
+            <input type="text" placeholder="请输入">
+            <h6>颜色三种写法</h6>
+            <div style="background-color: red;color: rgb(117, 11, 11);">颜色英文名称</div>
+            <div style="background-color: rgb(223, 229, 39);">rgb():0-255</div>
+            <div style="background-color: #3aa389;">16进制:</div>
+        </section>
+        <section id="form">
+            <h4>表格</h4>
+            <table>
+                <tr>
+                    <th>姓名</th>
+                    <th>年龄</th>
+                    <th>性别</th>
+                </tr>
+                <tr>
+                    <td>樊宏宇</td>
+                    <td>18</td>
+                    <td>男</td>
+                </tr>
+            </table>
+
+            <h4>表单</h4>
+            < action="">
+                <label for="username">用户名：</label>
+                <input type="text" id="username" placeholder="请输入用户名">
+                <label for="password">密码：</label>
+                <input type="password" id="password" placeholder="请输入密码">
+                <br>
+                性别:
+                <input type="radio" name="gender" id="male">男
+                <input type="radio" name="gender" id="female">女
+                <br>
+                爱好：
+                <input type="checkbox">编程
+                <input type="checkbox">唱歌
+                <input type="checkbox">看电影
+                <br>
+                出生日：
+                <input type="date">
+                <br>
+                邮箱：
+                <input type="email" id="email" placeholder="请输入邮箱">
+                <br>
+                
+                自我介绍
+                <textarea id="30" rows="10" cols="30"></textarea>
+            </form>
+        </section>
+    </main >
+    <footer>
+        <a href="#top">返回顶部</a>
+    </footer>
+</body>
+</html>

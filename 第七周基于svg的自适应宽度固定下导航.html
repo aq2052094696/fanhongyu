@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 基于svg的自适应宽度固定下导航</title>
+    <script src="./fonts/iconfont.js"></script>
+    <style>
+        .icon {
+        width: 1em;
+        height: 1em;
+        vertical-align: -0.15em;
+        fill: currentColor;
+        overflow: hidden;
+        }
+        ul,p{
+            margin:0;
+            padding:0;
+        }
+        ul{
+            list-style: none;
+        }
+        a{
+            text-decoration: none;
+            color:black;
+        }
+        #bnav{
+            position: fixed; /* 固定在底部 */
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            display: flex; /* 水平排列子元素 */
+        }
+        #bnav li{
+            width: 20%; /* 每个li占父元素的20% */
+            flex-grow: 1; /* 子元素平均分配剩余空间 */
+            text-align: center; /* 文字居中 */
+        }
+
+       
+
+
+    </style>
+</head>
+<body>
+    <ul id="bnav">
+        <li>
+            <a hraf="#">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-daxiang"></use>
+                </svg>
+                <p>大象</p>
+            </a>
+        </li>
+        <li>
+            <a hraf="#">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-zhangyu"></use>
+                </svg>
+                <p>章鱼</p>
+            </a>
+        </li>
+        <li>
+            <a hraf="#">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-egg"></use>
+                </svg>
+                <p>鹅蛋</p>
+            </a>
+        </li>
+        <li>
+            <a hraf="#">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-youyu-"></use>
+                </svg>
+                <p>鱿鱼</p>
+            </a>
+        </li>
+        <li>
+            <a hraf="#">
+                <svg class="icon" aria-hidden="true">
+                    <use xlink:href="#icon-baozi"></use>
+                </svg>
+                <p>包子</p>
+            </a>
+        </li>
+    </ul>
+</body>
+</html>

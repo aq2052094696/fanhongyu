@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>樊宏宇的《高级网页设计》课堂实践</title>
+  <style>
+    :root {
+      --ink: #172554;
+      --blue: #2563eb;
+      --cyan: #67e8f9;
+      --paper: #f7fbff;
+      --line: rgba(37, 99, 235, .13);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+      background:
+        radial-gradient(circle at 12% 10%, rgba(103, 232, 249, .42), transparent 27rem),
+        radial-gradient(circle at 88% 16%, rgba(129, 140, 248, .2), transparent 24rem),
+        linear-gradient(145deg, #f8fcff 0%, #eef4ff 100%);
+    }
+
+    .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+
+    header {
+      position: relative;
+      overflow: hidden;
+      padding: 72px 0 56px;
+      color: white;
+      background: linear-gradient(120deg, #172554 0%, #1d4ed8 58%, #0891b2 100%);
+    }
+
+    header::before, header::after {
+      content: "";
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    header::before { width: 420px; height: 420px; right: -110px; top: -230px; }
+    header::after { width: 260px; height: 260px; right: 80px; bottom: -210px; }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 18px;
+      padding: 7px 12px;
+      border: 1px solid rgba(255,255,255,.32);
+      border-radius: 999px;
+      font-size: 13px;
+      letter-spacing: .18em;
+      background: rgba(255,255,255,.08);
+    }
+
+    h1 { max-width: 760px; margin: 0; font-size: clamp(38px, 7vw, 74px); line-height: 1.08; letter-spacing: -.04em; }
+    .subtitle { max-width: 620px; margin: 22px 0 0; color: #dbeafe; font-size: clamp(16px, 2vw, 20px); line-height: 1.8; }
+
+    main { margin-top: -24px; padding-bottom: 60px; }
+
+    .toolbar {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,.8);
+      border-radius: 18px;
+      background: rgba(255,255,255,.92);
+      box-shadow: 0 18px 50px rgba(30,64,175,.12);
+      backdrop-filter: blur(12px);
+    }
+
+    .search {
+      width: min(420px, 100%);
+      padding: 13px 16px;
+      border: 1px solid #dbeafe;
+      border-radius: 12px;
+      outline: none;
+      color: var(--ink);
+      background: #f8fbff;
+      transition: .2s;
+    }
+
+    .search:focus { border-color: var(--blue); box-shadow: 0 0 0 4px rgba(37,99,235,.1); }
+    .count { flex: none; color: #64748b; font-size: 14px; }
+
+    .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+
+    .card {
+      position: relative;
+      display: flex;
+      min-height: 150px;
+      flex-direction: column;
+      justify-content: space-between;
+      overflow: hidden;
+      padding: 24px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      color: inherit;
+      text-decoration: none;
+      background: rgba(255,255,255,.88);
+      box-shadow: 0 10px 30px rgba(30,64,175,.07);
+      transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .card::after {
+      content: "↗";
+      position: absolute;
+      right: 20px;
+      bottom: 17px;
+      color: var(--blue);
+      font-size: 22px;
+      opacity: 0;
+      transform: translate(-6px, 6px);
+      transition: .25s;
+    }
+
+    .card:hover { transform: translateY(-7px); border-color: rgba(37,99,235,.35); box-shadow: 0 22px 44px rgba(30,64,175,.15); }
+    .card:hover::after { opacity: 1; transform: translate(0, 0); }
+
+    .week { color: var(--blue); font-size: 12px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .card strong { max-width: 90%; margin-top: 15px; font-size: 19px; line-height: 1.45; }
+
+    .prompt {
+      margin-top: 28px;
+      padding: 22px 24px;
+      border-left: 4px solid var(--cyan);
+      border-radius: 14px;
+      color: #334155;
+      line-height: 1.9;
+      background: rgba(255,255,255,.76);
+    }
+
+    .prompt h2 { margin: 0 0 8px; color: var(--ink); font-size: 18px; }
+    .prompt p { margin: 0; }
+
+    footer { padding: 24px 0 36px; text-align: center; color: #64748b; font-size: 13px; }
+    [hidden] { display: none !important; }
+
+    @media (max-width: 850px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 560px) {
+      header { padding: 52px 0 44px; }
+      .shell { width: min(100% - 24px, 1180px); }
+      .toolbar { align-items: stretch; flex-direction: column; }
+      .search { width: 100%; }
+      .grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } * { transition: none !important; } }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="shell">
+      <span class="eyebrow">ADVANCED WEB DESIGN</span>
+      <h1>樊宏宇的《高级网页设计》课堂实践</h1>
+      <p class="subtitle">从页面结构到交互动画，在一次次实践中探索网页设计与前端开发的可能。</p>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="toolbar" aria-label="作品筛选">
+      <input id="search" class="search" type="search" placeholder="搜索课堂实践作品…" autocomplete="off" aria-label="搜索作品">
+      <span id="count" class="count">共 22 个作品</span>
+    </section>
+
+    <section id="grid" class="grid" aria-label="课堂实践作品列表">
+      <a class="card" href="Flex视频墙.html"><span class="week">综合实践</span><strong>Flex 视频墙</strong></a>
+      <a class="card" href="gaoji.html"><span class="week">综合实践</span><strong>高级网页设计作品</strong></a>
+      <a class="card" href="商品鞋子网站.html"><span class="week">综合实践</span><strong>商品鞋子网站</strong></a>
+      <a class="card" href="第四周Flex布局.html"><span class="week">第四周</span><strong>Flex 布局</strong></a>
+      <a class="card" href="第七周幻灯片.html"><span class="week">第七周</span><strong>幻灯片</strong></a>
+      <a class="card" href="第七周溢出动画.html"><span class="week">第七周</span><strong>溢出动画</strong></a>
+      <a class="card" href="第八周JavaScript基础.html"><span class="week">第八周</span><strong>JavaScript 基础</strong></a>
+      <a class="card" href="第八周JavaScript变量.html"><span class="week">第八周</span><strong>JavaScript 变量</strong></a>
+      <a class="card" href="第八周JavaScript变量提升与数值处理.html"><span class="week">第八周</span><strong>变量提升与数值处理</strong></a>
+      <a class="card" href="第八周Promise.html"><span class="week">第八周</span><strong>Promise</strong></a>
+      <a class="card" href="第八周媒体查询.html"><span class="week">第八周</span><strong>媒体查询</strong></a>
+      <a class="card" href="第九周DOM.html"><span class="week">第九周</span><strong>DOM</strong></a>
+      <a class="card" href="第九周事件.html"><span class="week">第九周</span><strong>事件</strong></a>
+      <a class="card" href="第九周内置对象.html"><span class="week">第九周</span><strong>内置对象</strong></a>
+      <a class="card" href="第九周函数.html"><span class="week">第九周</span><strong>函数</strong></a>
+      <a class="card" href="第九周数组方法.html"><span class="week">第九周</span><strong>数组方法</strong></a>
+      <a class="card" href="第九周数组方法进阶.html"><span class="week">第九周</span><strong>数组方法进阶</strong></a>
+      <a class="card" href="第十周事件参数.html"><span class="week">第十周</span><strong>事件参数</strong></a>
+      <a class="card" href="第十一周Tabs选项卡.html"><span class="week">第十一周</span><strong>Tabs 选项卡</strong></a>
+      <a class="card" href="随堂测试/随堂测试-音乐手机选项卡.html"><span class="week">随堂测试</span><strong>音乐手机选项卡</strong></a>
+      <a class="card" href="四级项目/第一次四级项目.html"><span class="week">四级项目</span><strong>第一次四级项目</strong></a>
+      <a class="card" href="四级项目/第二次四级项目.html"><span class="week">四级项目</span><strong>第二次四级项目</strong></a>
+    </section>
+
+    <aside class="prompt">
+      <h2>页面制作提示词</h2>
+      <p>创建一个新页面，包括本目录下的所有网页的超链接，使用原生代码，不使用cdn，新页面名称为index.html，主题为樊宏宇的《高级网页设计》课堂实践，美化页面，页面中包括本提示词。</p>
+    </aside>
+  </main>
+
+  <footer>樊宏宇 ·《高级网页设计》课堂实践作品集</footer>
+
+  <script>
+    const search = document.getElementById('search');
+    const cards = [...document.querySelectorAll('.card')];
+    const count = document.getElementById('count');
+
+    search.addEventListener('input', () => {
+      const keyword = search.value.trim().toLowerCase();
+      let visible = 0;
+      cards.forEach((card) => {
+        const matched = card.textContent.toLowerCase().includes(keyword);
+        card.hidden = !matched;
+        if (matched) visible++;
+      });
+      count.textContent = keyword ? `找到 ${visible} 个作品` : `共 ${cards.length} 个作品`;
+    });
+  </script>
+</body>
+</html>

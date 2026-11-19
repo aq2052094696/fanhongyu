@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 10 26 樊宏宇</title>
+</head>
+<body>
+    <script>
+        //数组定义
+        var arr=[1,2,3,4,5];
+        console.log(arr);
+        var arr1=["Fan","hong","yu",true,1,2];
+        console.log(arr1);
+        //arr2是一个包含了3个空位的数组（长度为2，内容为空）
+        var arr2=new Array(3)
+        console.log(arr2);
+        var arr3= new Array(3,7,8,"fhy",'hello')
+        console.log(arr3,arr3.length)
+        arr["fan"]="hongyu"
+        //不计算在数组长度之内，将数组arr当作对象来使用
+        console.log(arr,arr.length,arr.fan);
+        for(var i=0;i< arr1.length;i++){
+            console.log(i+":"+arr1[i])
+        }
+        //数组的循环 for in ;for of
+        for(let key in arr1){
+            console.log(key+":"+arr1[key])
+        }
+        for(let v of arr1){
+            console.log(v)
+        }
+        //数组方法
+        //1.循环
+        arr1.forEach(function(v,i){
+            console.log("数组循环，索引："+i+"，值："+v)
+        })
+        //2.增加，删除元素
+        //在数组最后增加或者删除一个元素
+        var narr =arr1.push("cat")
+        console.log(narr,arr1)
+        arr1.pop()
+        console.log("arr1.pop()"+arr1)
+        //2.2 在数组最前面增加或删除一个元素
+        arr1.unshift("dog")
+        console.log("unshift:"+arr1)
+        arr1.shift()
+        console.log("shift:"+arr1)
+        //3.数组的拼接
+
+
+        //4.数组的合并
+
+        
+
+        
+
+
+    </script>
+</body>
+</html>

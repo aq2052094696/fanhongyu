@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JavaScript 变量提升与数值处理</title>
+</head>
+<body>
+  <script>
+    // 1. 变量提升
+    console.log("变量提升示例：");
+    console.log(name);   // undefined
+    var name = "樊宏宇";
+
+    // let / const 不存在变量提升的同样效果，存在暂时性死区
+    try {
+      console.log(age); // ReferenceError
+    } catch (e) {
+      console.log("let/const 访问前会报错：", e.message);
+    }
+    let age = 18;
+
+    // 2. 数值处理
+    console.log("数值处理示例：");
+    var str1 = "123";
+    var str2 = "45.67";
+    var num1 = Number(str1);       // 123
+    var num2 = parseFloat(str2);    // 45.67
+    console.log("Number(str1) =", num1);
+    console.log("parseFloat(str2) =", num2);
+    console.log("相加结果 =", num1 + num2);
+
+    console.log("Math.round(3.6) =", Math.round(3.6));
+    console.log("Math.ceil(3.2) =", Math.ceil(3.2));
+    console.log("Math.floor(3.9) =", Math.floor(3.9));
+    console.log("toFixed(2) =", (12.345).toFixed(2));
+
+    // 3. 数组和对象
+    var arr = [1, 2, 3, 4, 5];
+    var obj = {
+      name: "樊宏宇",
+      age: 18,
+      gender: "男"
+    };
+
+    console.log("数组：", arr);
+    console.log("对象：", obj);
+
+    //4.判断是否为整数
+    console.log("判断是否为整数：", Number.isInteger(123));
+    console.log("判断是否为整数：", Number.isInteger(123.45));
+    
+    //5.tofixed() 方法保留小数
+    console.log("保留两位小数：", (12.345).toFixed(2));
+  </script>
+</body>
+</html>

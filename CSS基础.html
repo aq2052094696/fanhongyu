@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 CSS基础:3种引入方式以及CSS选择器</title>
+    <style>
+        /* 选择器*/
+        /* 1、元素选择器/标签选择器*/
+        h1{
+            background-color: rgb(132, 132, 181);
+        }
+        h2{
+            background-color: rgb(255, 196, 0);
+        }
+        /*2、id选择器*/
+        #section{
+            background-color: rgb(24, 212, 27);
+            width: 1200px;
+            height: 100px;
+        }
+        /*3、类选择器*/
+        .list{
+            background-color: rgb(161, 188, 214);
+        }
+        /*4、后代选择器 */
+        p{
+            font-size: 10px;
+        }
+        .list p{
+            font-size: 30px;
+        }
+        #section li{
+            font-size: 40px;
+            color: rgb(24, 212, 27);
+        }
+    </style>
+    <!-- 3、第三种方式：外嵌样式。引入css文件 -->
+    <link rel="stylesheet" href="css/common.css">
+</head>
+<body>
+    <h1>CSS的3种引入方式演示</h1>
+    <h2 style="color: red;">第一种方式：内联样式/行内样式</h2>
+    <p style="background-color: rgb(132, 132, 181);width: 200px;">我是行内样式，一般不推荐</p>
+    <p style="background-color: rgb(255, 196, 0);width: 300px;color: rgb(24, 212, 27);">我是p标签</p>
+    <h2>第二种方式：内嵌样式</h2>
+    <div id="section">
+    <ul class="list">
+        <li>我是内嵌样式</li>
+        <li>我是内嵌样式</li>
+        <li>我是内嵌样式</li>
+    </ul>
+    <div class="list">
+        <p>我是段落</p>
+        <p>我是class名</p>
+        <p>我是id名</p>
+    </div>
+</body>
+</html>

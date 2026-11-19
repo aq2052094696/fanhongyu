@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 第八周Promis</title>
+</head>
+<body>
+    <!-- Promise 是 JavaScript 中的一种异步编程方式，用于处理异步操作的结果 -->
+     <script>
+        //promise的三种状态
+        //1、Pending（进行中）
+        //2、Fulfilled（已成功）
+        //3、Rejected（已失败）
+        const zkyPromise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                const score = Math.floor(Math.random() * 100 );  // 生成一个0到99之间的随机数作为成绩
+                //const score = 95;
+                if(score >= 50){
+                    resolve(score); // 成功时调用resolve函数，并将结果作为参数传递
+                }else{
+                    reject('成绩不达标'); // 失败时调用reject函数，并将错误作为参数传递
+                }
+            },2000);
+        });
+        zkyPromise.then((score) => {
+            console.log('恭喜你，成绩达标！');
+        }).catch((error) => {
+            console.log('很遗憾，你的成绩不达标。');
+        }).finally(() => {
+            console.log('无论成功还是失败，都会执行的代码');
+        });
+    </script>
+</body>
+</html>

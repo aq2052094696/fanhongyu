@@ -1,0 +1,15 @@
+{
+  "members": [
+    { "id": 1,  "name": "安宥真",   "enName": "An Yu-jin",      "team": "IVE",       "position": "队长 / 主唱",    "age": 21, "score": 95, "hobby": ["跳舞", "吃播", "拍照"],   "debut": "2021.12.01", "hit": "Eleven, Love Dive, After Like" },
+    { "id": 2,  "name": "张员瑛",   "enName": "Jang Won-young", "team": "IVE",       "position": "门面 / 副唱",   "age": 20, "score": 97, "hobby": ["拍照", "购物", "看电影"], "debut": "2021.12.01", "hit": "Eleven, Love Dive, I Am" },
+    { "id": 3,  "name": "金秋天",   "enName": "Kim Gaeul",      "team": "IVE",       "position": "主舞 / 说唱",   "age": 22, "score": 88, "hobby": ["滑板", "听音乐", "编舞"], "debut": "2021.12.01", "hit": "Eleven, After Like" },
+    { "id": 4,  "name": "金智媛",   "enName": "Kim Ji-won",     "team": "IVE",       "position": "主唱",          "age": 21, "score": 86, "hobby": ["唱歌", "钢琴", "烘焙"],   "debut": "2021.12.01", "hit": "Eleven, I've Mine" },
+    { "id": 5,  "name": "Liz",      "enName": "Liz",            "team": "IVE",       "position": "副主唱",        "age": 20, "score": 85, "hobby": ["画画", "吃甜食", "发呆"], "debut": "2021.12.01", "hit": "Love Dive, After Like" },
+    { "id": 6,  "name": "李瑞",     "enName": "Lee Seo",        "team": "IVE",       "position": "忙内 / 副唱",   "age": 18, "score": 90, "hobby": ["跳舞", "玩游戏", "时尚"], "debut": "2021.12.01", "hit": "I Am, I've Mine" },
+
+    { "id": 7,  "name": "Jisoo",    "enName": "Kim Ji-soo",     "team": "BLACKPINK", "position": "门面 / 主唱",   "age": 30, "score": 96, "hobby": ["演戏", "滑雪", "画画"],   "debut": "2016.08.08", "hit": "Flower, Whistle, Ddu-Du Ddu-Du" },
+    { "id": 8,  "name": "Jennie",   "enName": "Kim Jennie",     "team": "BLACKPINK", "position": "主说唱 / 主唱", "age": 29, "score": 99, "hobby": ["时尚", "摄影", "听音乐"], "debut": "2016.08.08", "hit": "Solo, Ddu-Du Ddu-Du, Pink Venom" },
+    { "id": 9,  "name": "Rosé",     "enName": "Park Chae-young","team": "BLACKPINK", "position": "主唱 / 吉他",   "age": 28, "score": 94, "hobby": ["弹吉他", "画画", "旅行"], "debut": "2016.08.08", "hit": "On The Ground, Gone" },
+    { "id": 10, "name": "Lisa",     "enName": "Lalisa Manoban", "team": "BLACKPINK", "position": "主舞 / 说唱",   "age": 27, "score": 98, "hobby": ["跳舞", "摄影", "吃美食"], "debut": "2016.08.08", "hit": "Lalisa, Money, Ddu-Du Ddu-Du" }
+  ]
+}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<!-- 姓名：樊宏宇 | 学号：24001010618 | 时间：2026-11-19 | 大模型：Tencent Hunyuan Hy -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fanhy · 科技新闻列表</title>
+<link rel="stylesheet" href="css/Fanhy_theme.css">
+<style>
+  .Fanhy_news-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
+    gap: 20px;
+    margin-top: 26px;
+    padding-bottom: 20px;
+  }
+  .Fanhy_news-card {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    padding: 0;
+    transition: transform .4s cubic-bezier(.2,.7,.3,1), box-shadow .4s, border-color .4s;
+  }
+  .Fanhy_news-card:hover {
+    transform: translateY(-8px);
+    border-color: rgba(155,107,255,.5);
+    box-shadow: 0 28px 55px rgba(0,0,0,.55), 0 0 34px rgba(155,107,255,.16);
+  }
+  .Fanhy_news-cover {
+    position: relative;
+    height: 170px;
+    overflow: hidden;
+    background: #0a1030;
+  }
+  .Fanhy_news-cover img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform .6s ease;
+  }
+  .Fanhy_news-card:hover .Fanhy_news-cover img { transform: scale(1.07); }
+  .Fanhy_news-cat {
+    position: absolute;
+    left: 14px; top: 14px;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #fff;
+    background: rgba(10,15,40,.6);
+    border: 1px solid rgba(255,255,255,.22);
+    backdrop-filter: blur(8px);
+  }
+  .Fanhy_news-body { padding: 20px 22px 22px; display: flex; flex-direction: column; flex: 1; }
+  .Fanhy_news-title { margin: 0 0 10px; font-size: 18px; font-weight: 800; line-height: 1.45; }
+  .Fanhy_news-summary { margin: 0 0 16px; font-size: 13.5px; color: var(--Fanhy-ink-soft); line-height: 1.75; flex: 1; }
+  .Fanhy_news-meta {
+    display: flex; justify-content: space-between; gap: 10px;
+    font-size: 12px; color: var(--Fanhy-muted);
+    border-top: 1px solid var(--Fanhy-glass-line);
+    padding-top: 14px;
+  }
+  .Fanhy_news-meta b { color: var(--Fanhy-cyan); font-weight: 600; }
+  .Fanhy_views { color: var(--Fanhy-gold); font-family: Consolas, monospace; }
+  .Fanhy_count-pill {
+    padding: 6px 14px; border-radius: 999px; font-size: 13px;
+    background: rgba(155,107,255,.14); color: var(--Fanhy-violet); font-weight: 700;
+  }
+  .Fanhy_raw {
+    margin-top: 30px;
+    max-height: 260px;
+    overflow: auto;
+    padding: 18px;
+    font-family: Consolas, monospace;
+    font-size: 12px;
+    line-height: 1.7;
+    color: var(--Fanhy-ink-soft);
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+  .Fanhy_loading { padding: 60px 0; text-align: center; color: var(--Fanhy-muted); font-size: 15px; }
+</style>
+</head>
+<body class="Fanhy-body">
+
+<div class="Fanhy-fluid" aria-hidden="true">
+  <div class="Fanhy-blob Fanhy-blob-a"></div>
+  <div class="Fanhy-blob Fanhy-blob-b"></div>
+  <div class="Fanhy-blob Fanhy-blob-c"></div>
+</div>
+<canvas id="Fanhy_particleCanvas" class="Fanhy_particles" aria-hidden="true"></canvas>
+
+<div class="Fanhy_wrap">
+  <header class="Fanhy_topbar">
+    <div class="Fanhy_topbar-brand">
+      <span class="Fanhy_logo-dot"></span>
+      <a href="index.html" class="Fanhy_gradient-text" style="text-decoration:none;">FANHY · STUDIO</a>
+    </div>
+    <a href="index.html" class="Fanhy_btn">← 返回展厅</a>
+  </header>
+
+  <div class="Fanhy_page-head Fanhy_reveal">
+    <span class="Fanhy_page-kicker">02 / TECH NEWS</span>
+    <h1 class="Fanhy_page-title Fanhy_gradient-text">科技新闻列表</h1>
+    <p class="Fanhy_page-desc">数据来自数据库 <code style="color:var(--Fanhy-gold)">Fanhy_news</code> 表，通过后端 RESTful 接口获取并渲染。每一条都是真实业务意义的科技资讯。</p>
+  </div>
+
+  <div class="Fanhy_api-bar Fanhy_glass Fanhy_reveal">
+    <span class="Fanhy_method">GET</span>
+    <span>接口链接：</span>
+    <a href="http://localhost:8618/api/news" target="_blank">http://localhost:8618/api/news</a>
+    <span class="Fanhy_count-pill" id="Fanhy_totalPill">加载中…</span>
+  </div>
+
+  <div id="Fanhy_newsGrid" class="Fanhy_news-grid">
+    <div class="Fanhy_loading">✨ 正在从数据库加载资讯…</div>
+  </div>
+
+  <details class="Fanhy_glass Fanhy_reveal" style="margin-top:18px;">
+    <summary style="padding:16px 22px;cursor:pointer;font-weight:700;color:var(--Fanhy-cyan);">📄 查看接口返回的原始数据（JSON）</summary>
+    <pre class="Fanhy_raw" id="Fanhy_rawData">（加载后显示）</pre>
+  </details>
+
+  <footer class="Fanhy_footer">樊宏宇 · 24001010618 · Fanhy 全栈典藏展厅</footer>
+</div>
+
+<script src="js/Fanhy_particles.js"></script>
+<script>
+  /* 姓名：樊宏宇 | 学号：24001010618 | 时间：2026-11-19 | 大模型：Tencent Hunyuan Hy */
+  (function () {
+    var Fanhy_grid = document.getElementById('Fanhy_newsGrid');
+    var Fanhy_raw = document.getElementById('Fanhy_rawData');
+    var Fanhy_pill = document.getElementById('Fanhy_totalPill');
+
+    fetch('http://localhost:8618/api/news')
+      .then(function (Fanhy_r) { return Fanhy_r.json(); })
+      .then(function (Fanhy_res) {
+        console.log('[Fanhy] /api/news 返回：', Fanhy_res);
+        if (Fanhy_res.code !== 0) { throw new Error(Fanhy_res.msg); }
+        var Fanhy_list = Fanhy_res.data.list;
+        Fanhy_pill.textContent = '共 ' + Fanhy_res.data.total + ' 条';
+        Fanhy_raw.textContent = JSON.stringify(Fanhy_res, null, 2);
+        Fanhy_grid.innerHTML = '';
+        Fanhy_list.forEach(function (Fanhy_item, Fanhy_i) {
+          Fanhy_grid.innerHTML +=
+            '<article class="Fanhy_news-card Fanhy_glass Fanhy_reveal" style="transition-delay:' + (Fanhy_i % 4 * 60) + 'ms">' +
+              '<div class="Fanhy_news-cover">' +
+                '<img src="' + Fanhy_item.Fanhy_imageUrl + '" alt="' + Fanhy_item.Fanhy_title + '" loading="lazy">' +
+                '<span class="Fanhy_news-cat">' + Fanhy_item.Fanhy_category + '</span>' +
+              '</div>' +
+              '<div class="Fanhy_news-body">' +
+                '<h3 class="Fanhy_news-title">' + Fanhy_item.Fanhy_title + '</h3>' +
+                '<p class="Fanhy_news-summary">' + Fanhy_item.Fanhy_summary + '</p>' +
+                '<div class="Fanhy_news-meta">' +
+                  '<span><b>' + Fanhy_item.Fanhy_source + '</b> · ' + Fanhy_item.Fanhy_publishTime + '</span>' +
+                  '<span class="Fanhy_views">👁 ' + Fanhy_item.Fanhy_views + '</span>' +
+                '</div>' +
+              '</div>' +
+            '</article>';
+        });
+        Fanhy_observeReveals();
+      })
+      .catch(function (Fanhy_err) {
+        console.error('[Fanhy] /api/news 错误：', Fanhy_err);
+        Fanhy_grid.innerHTML = '<div class="Fanhy_loading">❌ 数据加载失败：' + Fanhy_err.message + '</div>';
+      });
+
+    function Fanhy_observeReveals() {
+      var Fanhy_io = new IntersectionObserver(function (Fanhy_entries) {
+        Fanhy_entries.forEach(function (Fanhy_e) {
+          if (Fanhy_e.isIntersecting) { Fanhy_e.target.classList.add('Fanhy_visible'); Fanhy_io.unobserve(Fanhy_e.target); }
+        });
+      }, { threshold: 0.08 });
+      document.querySelectorAll('.Fanhy_reveal:not(.Fanhy_visible)').forEach(function (Fanhy_el) { Fanhy_io.observe(Fanhy_el); });
+    }
+    Fanhy_observeReveals();
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>20261102 樊宏宇 事件参数</title>
+    <style>
+        #box{
+            height: 1000px;
+            background-color: aqua;
+            color: #fff;
+            font-size: 36px;
+            padding: 20px;
+            margin: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input type="text" id="input" placeholder="键入回车结束">
+        <h2 id="h2">樊宏宇 事件参数</h2>
+    </div>
+
+    <script>
+        // 获取鼠标信息
+        var box = document.getElementById("box");
+        var input = document.getElementById("input");
+        var h2 = document.getElementById("h2");
+
+        box.onmousemove = function(e){
+            console.log(e);
+            h2.innerHTML = e.offsetX + "px," + e.offsetY + "px," + e.clientX + "px," + e.clientY + "px";
+        }
+
+        // 键盘信息
+        input.onkeyup = function(e){
+            console.log(e.keyCode);
+            if(e.keyCode == 13){
+                alert("你按了回车键");
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=
+    , initial-scale=1.0">
+    <title>618 樊宏宇 第十周DOM</title>
+    <style>
+        div,ul,h2{
+            margin: 0;
+            padding: 0;
+        }
+        ul{
+            list-style: none;
+        }
+        .list{
+            display: flex;
+            flex-wrap: wrap;
+
+        }
+        .list li{
+            text-align: center;
+            width: 160px;
+            height: 160px;
+            line-height: 160px;
+            background-color: #0d56ae;
+            color: #6edc06;
+            margin: 10px;
+            font-size: 60px;
+            transition: all .6s;
+        }
+        .clicked{
+            background-color: #6edc06;
+            color: #0d56ae;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <button>改变h2的html和css</button>
+    <button>在h2中显示li的nodename和nodeType</button>
+    <button>点击后，点击任意li都可以切换类，包括相邻节点</button>
+    <button>点击后，双击任意li可以将其删除</button>
+    <button>克隆</button>
+    <button>点击后，onmouseover时，li内显示你的名字</button>
+    <button>点击后，onmouseover时，li内显示你的学号后四位</button>
+    <div id="box">
+        <h2>樊宏宇 DOM</h2>
+        <ul class="list">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+    </div>
+    <script>
+        //获取dom元素
+        var box =document.getElementById('box'); 
+        var box = document.querySelector('#box');
+        //获取所有的按钮，得到的是array-like对象
+        var btns = document.getElementsByTagName('button');
+        console.log(btns);
+        // var h2 = document.getElementsByTagName('h2')[0];
+        var h2 = box.querySelector('h2'); 
+        var ul = box.getElementsByClassName('list')[0]; 
+        var li = box.querySelectorAll('li'); 
+        console.log(btns,box,h2,li);
+        //改变h2的html和css
+        btns[0].onclick = ()=>{
+            h2.innerHTML = 'zhangkaiyue javaScript';
+            //textContent智能改变文本内容，不能改变标签
+            h2.style.cssText = 'color: red;font-size: 20px;text-align: center; background-color: yellow; border: 1px solid red; padding: 10px;';
+            h2.style.color = 'blue';
+        }
+        //在h2中显示li的nodeName和nodeType
+        btns[1].onclick = ()=>{
+            h2.innerHTML = 'li的nodeName是：'+li[0].nodeName+'<br>li的nodeType是：'+li[0].nodeType;
+        }
+        //点击后，点击任意li都可以切换类，包括相邻节点
+        btns[2].onclick = ()=>{
+            for(let i=0;i<li.length;i++){
+                li[i].onclick = ()=>{
+                    li[i].classList.toggle('clicked');
+                    li[i].previousElementSibling.classList.toggle('clicked');
+                    li[i].nextElementSibling.classList.toggle('clicked');
+                }
+            }
+        }
+        //点击后，双击任意li可以将其删除
+        btns[3].onclick = ()=>{
+            for(let i=0;i<li.length;i++){
+                li[i].ondblclick = ()=>{ 
+                    li[i].remove();
+                }
+            }
+        }
+        btns[4].onclick = ()=>{
+            var nil = document.createElement('li');
+            //加在哪里
+            ul.appendChild(nil);
+            nil.innerHTML = ul.children.length;
+        }
+        btns[5].onclick = ()=>{
+            for(let i=0;i<li.length;i++){
+                li[i].onmouseover = function(){
+                    this.textContent = '樊宏宇';
+                    this.style.fontSize = '20px';
+                }
+            }
+        }
+        btns[6].onclick = ()=>{
+            for(let i=0;i<li.length;i++){
+                li[i].onmouseover = function(){
+                    this.textContent = '618';
+                    this.style.fontSize = '20px';
+                }
+            }
+        }
+    </script>
+</body>
+</html>

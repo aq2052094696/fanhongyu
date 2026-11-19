@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 Flex左图右文</title >
+    <link rel="stylesheet" href="./css/pub.css">
+    <style>
+        .box{
+            display:  flex; /* 开启弹性布局 */
+            align-items: flex-start;
+            width: 800px;
+            border: 1px solid #ccc; /* 设置边框 */
+            padding-bottom: 4px; 
+            margin-bottom: 4px; 
+        }
+        .box a{
+            margin-right: 10px; /* 右边距10px */
+            margin-left: 10px; /* 左边距10px */
+        }
+        .box img{
+            width:150px; /* 图片宽度150px */
+        }
+        .txt{
+            flex-grow: 1; /* 占满剩余空间 */
+            position: relative; /* 相对定位 */
+        }
+        .txt h2{ /* 标题样式 */
+            font-size: .5rem; /* 字体大小0.5rem */
+            line-height: 1rem; /* 行高 */
+            color: #ccc; /* 字体颜色 */
+        }
+        .txt span{ /* 副标题样式 */
+            font-size: .5rem; /* 字体大小0.5rem */
+            line-height: .25rem; /* 行高 */
+            color: #999; /* 字体颜色 */
+            display: flex; /* 块级元素 */
+
+        }
+        .txt .time{ /* 时间样式 */
+            position: absolute; /* 绝对定位 */
+            right: 10px; /* 右边距0 */
+            bottom: 0; /* 下边距 */
+        }
+       </style>
+</head>
+<body>
+    <div class="box">
+        <a href="#">
+            <img src="./img/1.jpg" alt="">
+        </a>
+        <div class="txt">
+            <h2>樊宏宇的标题</h2> 
+            <span class="author">作者:樊宏宇</span>  <!-- span标签是 行内元素，不会独占一行，会和文字在同一行 -->
+            <span class="time">时间:2026-9-28</span>
+        </div>
+    </div>
+    <div class="box">
+        <a href="#">
+            <img src="./img/2.jpg" alt="">
+        </a>
+        <div class="txt">
+            <h2>樊宏宇的标题</h2> 
+            <span class="author">作者:樊宏宇</span>  <!-- span标签是 行内元素，不会独占一行，会和文字在同一行 -->
+            <span class="time">时间:2026-9-28</span>
+        </div>
+    </div>
+    <div class="box">
+        <a href="#">
+            <img src="./img/3.jpg" alt="">
+        </a>
+        <div class="txt">
+            <h2>樊宏宇的标题</h2> 
+            <span class="author">作者:樊宏宇</span>  <!-- span标签是 行内元素，不会独占一行，会和文字在同一行 -->
+            <span class="time">时间:2026-9-28</span>
+        </div>
+    </div>
+    <div class="box">
+        <a href="#">
+            <img src="./img/4.jpg" alt="">
+        </a>
+        <div class="txt">
+            <h2>樊宏宇的标题</h2> 
+            <span class="author">作者:樊宏宇</span>  <!-- span标签是 行内元素，不会独占一行，会和文字在同一行 -->
+            <span class="time">时间:2026-9-28</span>
+        </div>
+    </div>
+    <div class="box">
+        <a href="#">
+            <img src="./img/5.jpg" alt="">
+        </a>
+        <div class="txt">
+            <h2>樊宏宇的标题</h2> 
+            <span class="author">作者:樊宏宇</span>  <!-- span标签是 行内元素，不会独占一行，会和文字在同一行 -->
+            <span class="time">时间:2026-9-28</span>
+        </div>
+    </div>
+    <div class="box">
+        <a href="#">
+            <img src="./img/6.jpg" alt="">
+        </a>
+        <div class="txt">
+            <h2>樊宏宇的标题</h2> 
+            <span class="author">作者:樊宏宇</span>  <!-- span标签是 行内元素，不会独占一行，会和文字在同一行 -->
+            <span class="time">时间:2026-9-28</span>
+        </div>
+    </div>
+</body>
+</html>

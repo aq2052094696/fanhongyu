@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 一左一右（绝对定位）</title>
+    <style>
+        div,h2 {
+            padding: 0;
+            margin: 0;
+        }
+        a {
+            text-decoration: none; /* 去掉下划线 */
+            color: black; /* 文字颜色 */
+        }
+        .title {     /* 类选择器，用于定位标题和更多按钮的位置 */
+            width: 500px;
+            line-height: 50px; /* 行高 */
+            border: 1px dashed rgb(203, 24, 24); /* 边框 */
+            position: relative; /* 相对定位 */
+            /* 绝对定位元素的父元素一定要设置相对定位 */
+        }
+        .title a {    /* 类选择器，用于定位更多按钮的位置 */
+            position: absolute; /* 绝对定位 */
+            top: 0;
+            right: 0;
+            font-size: 14px; /* 字体大小 */
+            color: rgb(98, 130, 1); /* 文字颜色 */
+        }
+        .title h2 {
+            padding-left: 10px;
+            font-size: 24px; /* 字体大小 */
+            color: rgb(24, 84, 203); /* 文字颜色 */
+        }
+    </style>
+</head>
+<body>
+    <div class="title">
+        <a href="./第三周CSS布局.html">更多</a>
+        <h2>樊宏宇</h2>
+    </div>
+</body>
+</html>

@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 第五周CSS3选择器</title>
+    <style>
+        .parent {
+            display: flex;  /* 弹性布局 */ 
+            flex-wrap: wrap; /* 允许子元素换行 */
+            justify-content: space-around; /* 子元素水平居中 */
+        }
+        .parent h2 {
+            width: 100%;
+            text-align: center;
+            margin: 8px;
+        }
+        .box {
+            width: 160px;
+            height: 160px;
+            background-color: pink;
+            margin: 8px;
+            text-align: center;
+            line-height: 160px;
+            transition: all 0.5s;
+        }
+        /* 选择第一个盒子 */
+        .box:nth-child(2):hover { /* 鼠标悬停时改变背景颜色和字体大小 */
+            background-color: red;
+            font-size: 130px;
+
+        }
+        /* 选择最后一个盒子 */
+        .box:nth-child(3):hover {
+            background-color: blue;
+            font-size: 130px;
+            border-radius: 10px 20px 30px 40px;
+        }
+        /* 选择奇数盒子 */
+        .box:nth-child(4):hover {
+            background-color: green;
+            font-size: 130px;
+            box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.5);
+        }
+        /* 选择父元素下的第四个.box */
+        .box:nth-of-type(4):hover {
+            background-color: yellow;
+            font-size: 130px;
+            text-shadow: 5px 5px 5px rgba(82, 35, 35, 0.5); /* 文字阴影 */
+            
+        }
+        /* 选择5个.box元素下的兄弟元素 */
+         .box:nth-of-type(5):hover{
+            background-color: rgb(115, 98, 13);
+            /* 线性渐变 */
+            /* background: linear-gradient( #f00, #0f0, #00f,#ff0, #0ff, #f0f); */
+            background: linear-gradient( 45deg, #f00, #0f0, #00f,#ff0, #0ff, #f0f); /* 45度渐变 */
+        }
+        .box:nth-of-type(5)+.box:hover{
+            background-color: rgb(123, 157, 127);
+            /* 径向渐变 */
+            background:radial-gradient(rgb(142, 28, 28),rgb(194, 139, 36),rgb(15, 6, 114),rgb(173, 226, 47),blue); 
+        }
+        .box:nth-of-type(7):hover{
+            background-color: rgb(139, 27, 65);
+
+            transform: scale(.2);  /* 缩放 */
+        }
+        .box:nth-of-type(8):hover{
+            background-color: rgb(198, 92, 164);
+            transform: rotate(360deg);  /* 旋转 */
+        }
+        .box:nth-of-type(9):hover{
+            background-color: rgb(230, 106, 24);
+            transform: translate(50px, 50px);  /* 平移 */
+        }
+        .box:nth-of-type(10):hover{
+            background-color: rgb(238, 238, 238);
+            transform: skew(30deg);  /* 倾斜 */
+        }
+        /* 选择倒数第二个盒子 */
+        .box:nth-last-child(2):hover{
+            background-color: rgb(50, 107, 222);
+            transform: rotate(360deg) scale(.2) translate(50px, 50px);  /* 同时执行多个变换 */
+        }
+        .box:nth-last-child(1):hover::after{ /* 伪元素 */
+            content: "yuanbao" /* 内容 */;
+            color : rgb(36, 221, 224); /* 文字颜色 */
+            /* background-color: rgb(25, 187, 63);
+            transform: skew(30deg) translate(50px, 50px) rotate(360deg) scale(.2); */
+        }
+        .box:nth-last-child(odd):hover{ /* 选择倒数奇数盒子 */
+            color: rgb(35, 200, 73);
+            font-size: 20px;
+        }
+        .box:nth-last-child(even):hover{ /* 选择倒数偶数盒子 */
+            color: rgb(28, 125, 186);
+            font-size: 130px;
+        }
+        /* 选择所有类名包含"box"的元素 */
+        [class~="box"]:hover{
+            background-color: rgb(255, 166, 0);
+        }
+    </style>
+</head>
+<body>
+    <div class="parent">
+        <h2>CSS3选择器</h2>
+        <div class="box">1</div>
+        <div class="box">2</div>
+        <div class="box">3</div>
+        <div class="box">4</div>
+        <div class="box">5</div>
+        <div class="box">6</div>
+        <div class="box">7</div>
+        <div class="box">8</div>
+        <div class="box">9</div>
+        <div class="box">10</div>
+        <div class="box">11</div>
+        <div class="box">12</div>
+        
+
+    </div>
+    
+    
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

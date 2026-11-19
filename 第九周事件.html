@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>10-29 樊宏宇 事件t</title>
+    <style>
+        /* 清除body默认外边距，解决100%宽度左右留白问题 */
+        body{
+            margin: 0;
+        }
+        #box{
+            width: 200px;
+            height: 200px;
+            background-color: skyblue;
+            color: white;
+            margin:10px;
+            text-align: center;
+            line-height: 200px;
+            font-size: 32px;
+            transition: all .6s;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="wide()">变宽 </button>
+    <button onclick="narrow()">变窄</button>
+    <button onclick="hide()">消失</button>
+    <button onclick="show()">出现</button>
+    <button onclick="changeText()">改变文字</button>
+    <button onclick="randomChange()">随机变</button>
+    <div id="box">樊宏宇 事件</div>
+    <script>
+        //获取元素
+        var box =document.getElementById("box");
+        function wide(){
+            box.style.width ="100%"
+        }
+        //变窄
+        function narrow(){
+            box.style.width ="100px"
+        }
+        //消失
+        function hide(){
+            box.style.display ='none'
+        }
+        // 出现
+        function show(){
+            box.style.display ='block'
+        }
+        //新增：改变文字
+        function changeText(){
+            box.innerText = "张元英 五女一";
+        }
+        //新增：随机宽度
+        function randomChange(){
+            let w = Math.random() * 500 + 100;
+            box.style.width = w + "px";
+        }
+    </script>
+</body>
+</html>

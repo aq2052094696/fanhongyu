@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 第四周实践参数</title>
+    <style>
+        #box {
+            height: 1000px;
+            background-color: pink;
+            color: #cb1313;
+            margin: 30px;
+            line-height: 200px;
+            text-align: center;
+            font-size: 36px;
+            transition: all .6s;
+            border: 1px dotted #cb1313;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">
+        <input type="text" id="name" placeholder="按下回车键结束">
+        <h2 id="h2">樊宏宇 时间参数</h2>
+
+    </div>
+    <script>
+        box.onmousemove = function(e){
+            // console.log(e);
+            // h2.innerHTML = e.offsetX + "px" + e.offsetY+ "px"+e.clientX+"px"+e.clientY+"px";    //鼠标移动时，显示鼠标相对于盒子左上角的坐标和相对于浏览器窗口左上角的坐标
+
+        }
+        //键盘信息
+        input.onkeyup = function(e){
+            console.log(e);
+            console.log(e.keyCode); 
+            if(e.keyCode == 13){
+                alert("你按下了回车键");
+            }
+        }
+        
+    </script>
+</body>
+</html>

@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>26.11.09 樊宏宇 随堂测试-音乐手机选项卡</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        body {
+            font-size: 14px;
+            font-family: "Microsoft YaHei", SimSun, Arial, sans-serif;
+        }
+        a {
+            text-decoration: none;
+            color: #1a53b8;
+        }
+        a:hover {
+            text-decoration: underline;
+            color: #c00;
+        }
+
+        /* ===== 整体容器 ===== */
+        .box {
+            width: 480px;
+            margin: 20px auto;
+            border: 1px solid #c9d7ee;
+        }
+
+        /* ===== 标题栏：左侧标题 + 右侧选项卡 ===== */
+        .hd {
+            height: 34px;
+            line-height: 34px;
+            background: url(img/bg22.gif) repeat-x 0 0;
+            border-bottom: 1px solid #c9d7ee;
+        }
+        .hd h3 {
+            float: left;
+            padding-left: 12px;
+            font-size: 16px;
+            color: #1a53b8;
+        }
+        .tab {
+            float: right;
+            margin-right: 8px;
+        }
+        .tab span {
+            float: left;
+            width: 52px;
+            height: 26px;
+            line-height: 26px;
+            margin-top: 4px;
+            margin-left: 4px;
+            text-align: center;
+            color: #333;
+            border: 1px solid #a9c0e4;
+            background: url(img/bg21.gif) repeat-x 0 0;
+            cursor: pointer;
+        }
+        /* 当前选中的选项卡 */
+        .tab span.active {
+            color: #fff;
+            font-weight: bold;
+            border-color: #3a71c8;
+            background: #3a71c8 url(img/bg20.gif) no-repeat 0 bottom;
+        }
+
+        /* ===== 新闻列表 ===== */
+        .tc {
+            display: none;
+            padding: 8px 12px;
+        }
+        .tc li {
+            height: 28px;
+            line-height: 28px;
+            background: url(img/dot.gif) no-repeat 0 -10px;
+            padding-left: 12px;
+            overflow: hidden;
+        }
+        /* 每个栏目用不同颜色的小方块（雪碧图取色） */
+        .tc0 li { background-position: 0 -58px; }   /* 行情-蓝 */
+        .tc1 li { background-position: 0 -10px; }   /* 导购-深灰 */
+        .tc2 li { background-position: 0 -106px; }  /* 新品-红 */
+        .tc3 li { background-position: 0 -154px; }  /* 评测-黑 */
+        .tc a {
+            float: left;
+            max-width: 380px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .tc .date {
+            float: right;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="hd">
+            <h3>音乐手机</h3>
+            <div class="tab">
+                <span class="active">行情</span>
+                <span>导购</span>
+                <span>新品</span>
+                <span>评测</span>
+            </div>
+        </div>
+
+        <!-- 行情 -->
+        <ul class="tc tc0" style="display: block;">
+            <li><a href="#">音乐强劲 苹果iPhone 5价格稳定</a><span class="date">(12/19)</span></li>
+            <li><a href="#">高性能双四核音乐手机 魅族MX3低价热卖</a><span class="date">(12/19)</span></li>
+            <li><a href="#">音乐品质最出色 vivo X3仅销2199</a><span class="date">(12/12)</span></li>
+            <li><a href="#">时尚音乐手机 vivo Xplay近期2798元</a><span class="date">(11/27)</span></li>
+            <li><a href="#">好音乐好拍照 OPPO Find5今日报价2580元</a><span class="date">(08/27)</span></li>
+            <li><a href="#">1.5GHz四核1080p OPPO Find 5低价热卖</a><span class="date">(07/30)</span></li>
+            <li><a href="#">彩色呼吸灯双核机 索尼M35h促销2299</a><span class="date">(06/08)</span></li>
+            <li><a href="#">1.7GHz四核1080p vivo Xplay热卖中</a><span class="date">(06/07)</span></li>
+        </ul>
+
+        <!-- 导购 -->
+        <ul class="tc tc1">
+            <li><a href="#">优秀音效漂亮外观 市售音乐手机盘点</a><span class="date">(09/13)</span></li>
+            <li><a href="#">不要虐待耳朵 8款独特音效的音乐手机荐</a><span class="date">(09/06)</span></li>
+            <li><a href="#">最低只要799 9款高性能音乐手机推荐</a><span class="date">(07/22)</span></li>
+            <li><a href="#">长假主导后高考时代 奖励孩子的智能手机全攻略</a><span class="date">(06/13)</span></li>
+            <li><a href="#">降价不限时 端午后值得关注降价四核机推荐</a><span class="date">(06/13)</span></li>
+            <li><a href="#">高考之后尽情狂欢！学生超强手机推荐</a><span class="date">(06/13)</span></li>
+            <li><a href="#">上半年看这里 最热1080P四核旗舰手机</a><span class="date">(06/13)</span></li>
+            <li><a href="#">最厚不过7.99毫米 热门超强机身大搜罗</a><span class="date">(06/06)</span></li>
+        </ul>
+
+        <!-- 新品 -->
+        <ul class="tc tc2">
+            <li><a href="#">无限接近完美！ vivo Xplay3S现场体验</a><span class="date">(12/19)</span></li>
+            <li><a href="#">入门音乐机 诺基亚Lumia 525现身工信部</a><span class="date">(11/05)</span></li>
+            <li><a href="#">传诺基亚下月将推首款WP音乐手机Glee</a><span class="date">(09/29)</span></li>
+            <li><a href="#">没有中国 谷歌All Access音乐服务登陆欧洲</a><span class="date">(09/09)</span></li>
+            <li><a href="#">软硬兼施 vivo Xstudio Hi-Fi音乐圈讲解</a><span class="date">(06/23)</span></li>
+            <li><a href="#">Hi-Fi录音棚 vivo X3的音乐系统</a><span class="date">(08/07)</span></li>
+            <li><a href="#">Hi-Fi不够vivo又玩录音棚 X3音乐处理方案曝光</a><span class="date">(08/06)</span></li>
+            <li><a href="#">小伙伴都惊呆了 薄至6mm以下 vivo X3解析</a><span class="date">(07/31)</span></li>
+        </ul>
+
+        <!-- 评测 -->
+        <ul class="tc tc3">
+            <li><a href="#">音乐历久弥新 TD版魅族MX3评测</a><span class="date">(12/19)</span></li>
+            <li><a href="#">极致影音完美音质 步步高vivo Xplay移动版图赏</a><span class="date">(07/24)</span></li>
+            <li><a href="#">都是大屏何不同？ 三星S4/Mega静态评测</a><span class="date">(06/20)</span></li>
+            <li><a href="#">超强四核智能机 HTC Desire 608t评测</a><span class="date">(06/20)</span></li>
+            <li><a href="#">完美融合微博 魅族MX2 Flyme 2.2.5体验</a><span class="date">(06/18)</span></li>
+            <li><a href="#">1080p屏Hi-Fi旗舰 vivo Xplay娱乐体验</a><span class="date">(06/13)</span></li>
+            <li><a href="#">5.7英寸高清巨屏 酷派9070+XO影音体验</a><span class="date">(06/06)</span></li>
+            <li><a href="#">悬浮窗口播放 vivo Xplay视频功能体验</a><span class="date">(06/06)</span></li>
+        </ul>
+    </div>
+
+    <script>
+        // 选项卡切换：和课上 Tabs 练习一样的写法，鼠标移入切换
+        var box = document.querySelector('.box');
+        var tab = box.querySelector('.tab');
+        var spans = tab.getElementsByTagName('span');
+        var tc = box.getElementsByTagName('ul');
+
+        for (var i = 0; i < spans.length; i++) {
+            spans[i].index = i;
+            spans[i].onmouseover = function () {
+                // 先清空所有的高亮和显示
+                for (var j = 0; j < spans.length; j++) {
+                    spans[j].classList.remove('active');
+                    tc[j].style.display = 'none';
+                }
+                // 再显示当前鼠标移入的选项卡
+                this.classList.add('active');
+                tc[this.index].style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>

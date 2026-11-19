@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 第八周对象.html</title>
+    <!-- 对象分三种：
+     1、内置对象：Object、Array、Date、Math
+     2、宿主对象：由宿主环境提供的对象，如浏览器window、document、navigator等
+     3、自定义对象：通过new关键字创建的对象
+ -->
+</head>
+<body>
+    <script>
+        var obj = {
+        zkyname:"樊宏宇",
+        zkyage:18,
+        zkysex:"男",
+        zkyheight:195, // 对象的属性
+        zkyweight:160, // 对象的属性
+        zkyhobbies:['篮球','足球'], // 对象的属性
+        bir:function(){
+            // var date = new Date();
+            // var year = date.getFullYear();
+            // return year-this.zkyage;
+            return new Date().getFullYear()-this.zkyage; // 对象的属性
+        },
+        eat:function(t){
+            console.log(this.zkyname+" ate at "+t+"o'clock"); // 对象的属性
+        }
+
+    };
+    // 访问对象的属性和方法
+    console.log(obj.zkyname); // 输出: 樊宏宇
+    console.log(obj["zkyname"]); // 输出: 樊宏宇
+    console.log(obj.bir());
+    // 修改对象的属性
+    obj.zkyage=23;
+    console.log(obj.zkyage);
+    //删除对象的属性
+    console.log(obj.zkysex);
+    delete obj.zkysex;
+    console.log(obj.zkysex); // 输出: undefined
+    //调用方法
+    obj.eat(12); // 输出: 樊宏宇 ate at 12o'clock
+    // 遍历对象的属性
+    for (var key in obj) {
+        //console.log(key + " : " + obj[key]);
+        console.log(key); // 输出: zkyname,zkyage,zkyheight,zkyweight,bir,eat
+        console.log(obj[key]); // 输出: 樊宏宇,23,195,160,function(){...},function(){...}
+    }
+    // 判断对象是否有某个属性
+    console.log("zkyname" in obj); // 输出: true
+    console.log("zkysex" in obj); // 输出: false
+    console.log(obj.hasOwnProperty("zkyname")); // 输出: true,判断对象自身是否包含某个属性
+    
+    </script>
+
+</body>
+</html>

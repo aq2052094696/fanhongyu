@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Promise异步处理示例</title>
+</head>
+<body>
+    <h1>Promise成绩判断</h1>
+    <p id="result">正在计算成绩，请稍候……</p>
+
+    <script>
+        const cyyPromise = new Promise((resolve, reject) => {
+            setTimeout(() => {
+                // 生成一个0到99之间的随机分数
+                const score = Math.floor(Math.random() * 100);
+                // const score = 85; // 可使用固定分数进行测试
+
+                if (score >= 60) {
+                    resolve(score);
+                } else {
+                    reject("分数不足");
+                }
+            }, 2000);
+        });
+
+        // 使用then()处理成功结果，使用catch()处理失败结果
+        cyyPromise
+            .then((score) => {
+                const message = `成绩为${score}分，考试通过！`;
+                console.log(message);
+                document.getElementById("result").textContent = message;
+            })
+            .catch((error) => {
+                const message = `考试未通过：${error}`;
+                console.log(message);
+                document.getElementById("result").textContent = message;
+            });
+    </script>
+</body>
+</html>

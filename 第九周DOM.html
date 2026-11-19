@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fhy DOM</title>
+
+    <style>
+        div, ul, h2 {
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .list {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .list li {
+            width: 160px;
+            height: 160px;
+            line-height: 160px;
+            text-align: center;
+            background-color: aqua;
+            color: red;
+            margin: 10px;
+            font-size: 60px;
+            transition: all .6s;
+            cursor: pointer;
+        }
+
+        /* 切换类后，方块会使用这个样式 */
+        .list li.active {
+            background-color: orange;
+            color: white;
+            border-radius: 30px;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <button>改变h2的html和css</button>
+    <button>在h2中显示li的nodeName和nodeType</button>
+    <button>点击后，点击任意li都可以切换类，包括相邻节点</button>
+    <button>点击后，双击任意li可以将其删除</button>
+    <button>克隆</button>
+    <button>点击后，onmousemove时，li内显示你的名字</button>
+    <button>点击后，onmousemove时，li内显示你的学号后四位</button>
+
+    <div id="box">
+        <h2>樊宏宇 DOM</h2>
+
+        <ul class="list">
+            <li>1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+            <li>5</li>
+            <li>6</li>
+            <li>7</li>
+            <li>8</li>
+            <li>9</li>
+            <li>10</li>
+        </ul>
+    </div>
+
+    <script>
+        var box = document.getElementById("box");
+        var btns = document.getElementsByTagName("button");
+        var h2 = box.querySelector("h2");
+        var ul = box.querySelector("ul");
+        // ✅ 获取所有li
+        var li = box.querySelectorAll('.list li');
+        // 保存li原始文字，鼠标移动后恢复用
+        li.forEach((item,idx)=>{
+            item.oldText = idx+1;
+        })
+
+        // 按钮0：改变h2的html和css
+        btns[0].onclick = function(){
+            h2.innerHTML = "Guojinrui Javascript";
+            h2.style.cssText = "color:red; font-size: 36px";
+            h2.style.backgroundColor ="pink";
+            h2.style.setProperty("height","100px");
+            h2.classList.toggle("active");
+        };
+
+        // 按钮1：h2显示li的nodeName nodeType
+        btns[1].onclick = function(){
+            h2.innerHTML = "li的nodeName 是"+ li[0].nodeName +"<br>li的nodeType 是"+ li[0].nodeType;
+        }
+
+        // 按钮2：点击li切换自身+相邻兄弟节点 active
+        btns[2].onclick = function(){
+            for(var i = 0; i < li.length; i++){
+                li[i].onclick = function(){
+                    this.classList.toggle("active");
+                    // 前一个兄弟
+                    if(this.previousElementSibling){
+                        this.previousElementSibling.classList.toggle('active');
+                    }
+                    // 后一个兄弟
+                    if(this.nextElementSibling){
+                        this.nextElementSibling.classList.toggle('active');
+                    }
+                }
+            }
+        }
+
+        // 按钮3：双击li删除
+        btns[3].onclick = function(){
+            for(var i = 0; i < li.length; i++){
+                li[i].ondblclick = function(){
+                    this.remove();
+                }
+            }
+        }
+
+        // 按钮4：克隆当前点击的li
+        btns[4].onclick = function(){
+            for(var i = 0; i < li.length; i++){
+                li[i].onclick = function(){
+                    var cloneLi = this.cloneNode(true);
+                    cloneLi.oldText = this.oldText;
+                    ul.appendChild(cloneLi);
+                }
+            }
+        }
+
+        // 按钮5：鼠标移动，li里面显示名字
+        btns[5].onclick = function(){
+            for(var i = 0; i < li.length; i++){
+                li[i].onmousemove = function(){
+                    this.innerText = "樊宏宇";
+                }
+                li[i].onmouseout = function(){
+                    this.innerText = this.oldText;
+                }
+            }
+        }
+
+        // 按钮6：鼠标移动，li里面显示学号后四位，你把下面数字改成自己的！
+        btns[6].onclick = function(){
+            for(var i = 0; i < li.length; i++){
+                li[i].onmousemove = function(){
+                    this.innerText = "0618";
+                }
+                li[i].onmouseout = function(){
+                    this.innerText = this.oldText;
+                }
+            }
+        }
+    </script>
+</body>
+</html>

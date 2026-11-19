@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 上图下文 绝对定位</title>
+    <style>
+        /* 全局CSS */
+        ul{
+            padding: 0;
+            margin: 0;
+            list-style: none;            
+        }
+        a{
+            text-decoration: none;
+            color: #000;
+        }
+        .list{
+            width: 700px;
+            margin: 10px auto;
+            /* 设置BFC、清除浮动 */
+            overflow: hidden;
+        }
+        .list li{
+            position: relative;
+            /* 绝对定位的父元素设置相对定位 */
+            box-sizing: border-box; 
+            width: 225px; 
+            /* 最大宽度计算：图片宽度 + 2 * 外边距 */
+            margin: 4px;
+            float: left;
+        }
+        .list img{
+            width: 100%;
+        }
+        .list p{
+            position: absolute;
+            /* 坐标 */
+            left: 0;
+            bottom: 0; 
+            width: 100%;
+            line-height: 30px;
+            text-align: center;
+            background-color: rgba(0,0,0,0.5);
+            color: #fff;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+    </style>
+</head>
+<body>
+    <ul class="list">
+        <li>
+            <a href="./24第一次课HTML标签.html">
+                <img src="./img/5.jpg" alt="">
+                <p>樊宏宇的海景酒店</p>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="./img/2.jpg" alt="">
+                <p>樊宏宇的私人座驾</p>   
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="./img/3.jpg" alt="">
+                <p>樊宏宇的豪宅庭院</p>   
+            </a>
+        </li>
+        <li>
+            <a href="./24第一次课HTML标签.html">
+                <img src="./img/4.jpg" alt="">
+                <p>樊宏宇</p>   
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="./img/1.jpg" alt="">
+                <p>樊宏宇</p>   
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <img src="./img/6.jpg" alt="">
+                <p>樊宏宇</p>   
+            </a>
+        </li>
+    </ul>
+    <!-- 扩展：一行显示3个 -->
+    
+</body>
+</html>

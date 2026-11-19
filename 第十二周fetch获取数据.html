@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>第十二周 — Fetch 获取班级成绩</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+            min-height: 100vh;
+            padding: 40px 20px;
+            background:
+                radial-gradient(ellipse at 20% 10%, rgba(74,144,226,0.3) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 90%, rgba(123,104,238,0.3) 0%, transparent 50%),
+                linear-gradient(135deg, #0f1c3a 0%, #1a2a4e 50%, #152244 100%);
+            color: #eaf0ff;
+            background-attachment: fixed;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        /* 班级信息 */
+        .class-header {
+            background: linear-gradient(135deg, rgba(74,144,226,0.25), rgba(123,104,238,0.25));
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(120,160,255,0.3);
+            border-radius: 20px;
+            padding: 32px 40px;
+            margin-bottom: 28px;
+            box-shadow: 0 10px 40px rgba(30,60,150,0.35);
+        }
+        .class-header h1 {
+            font-size: 32px; font-weight: 800; letter-spacing: 3px;
+            background: linear-gradient(90deg, #64b5ff, #a78bfa);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .class-meta {
+            margin-top: 16px;
+            display: flex; gap: 28px; flex-wrap: wrap;
+            font-size: 15px; color: #b8c8e8;
+        }
+        .class-meta span { display: inline-flex; align-items: center; gap: 6px; }
+        .class-meta b { color: #fff; font-weight: 600; }
+
+        /* 连接状态 */
+        .status-bar {
+            display: inline-block; margin-top: 14px;
+            padding: 6px 16px; border-radius: 20px; font-size: 13px;
+            font-family: Consolas, monospace;
+        }
+        .status-ok     { background: rgba(34,197,94,0.18); border: 1px solid rgba(34,197,94,0.4); color: #86efac; }
+        .status-loading{ background: rgba(250,204,21,0.15); border: 1px solid rgba(250,204,21,0.4); color: #fde047; }
+        .status-error  { background: rgba(239,68,68,0.18); border: 1px solid rgba(239,68,68,0.4); color: #fca5a5; }
+
+        /* 统计卡 */
+        .stats {
+            display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px;
+            margin-bottom: 24px;
+        }
+        .stat {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px; padding: 18px 10px; text-align: center;
+            transition: all 0.3s;
+        }
+        .stat:hover { transform: translateY(-4px); border-color: rgba(100,180,255,0.5); }
+        .stat .num {
+            font-size: 28px; font-weight: 800;
+            background: linear-gradient(135deg, #64b5ff, #a78bfa);
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .stat .label { font-size: 12px; color: #9eb4d6; margin-top: 4px; letter-spacing: 1px; }
+
+        /* 工具栏 */
+        .toolbar {
+            display: flex; gap: 10px; flex-wrap: wrap;
+            margin-bottom: 16px;
+        }
+        .toolbar button {
+            padding: 9px 20px; border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.05); color: #c5d4f0;
+            cursor: pointer; font-size: 13px; transition: all 0.25s;
+        }
+        .toolbar button:hover { background: rgba(100,180,255,0.2); color: #fff; border-color: #64b5ff; }
+        .toolbar button.active {
+            background: linear-gradient(135deg, #4a90e2, #7b68ee);
+            color: #fff; border-color: transparent; font-weight: bold;
+            box-shadow: 0 4px 18px rgba(74,144,226,0.5);
+        }
+
+        /* 表格 */
+        .table-wrap {
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 18px;
+            padding: 8px; overflow: hidden;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+        }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; }
+        thead th {
+            padding: 14px 12px; text-align: center;
+            background: linear-gradient(135deg, rgba(74,144,226,0.55), rgba(123,104,238,0.55));
+            color: #fff; font-weight: 600; font-size: 13px; letter-spacing: 1px;
+        }
+        thead th:first-child { border-radius: 16px 0 0 0; }
+        thead th:last-child  { border-radius: 0 16px 0 0; }
+        tbody td {
+            padding: 13px 12px; text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            font-size: 14px; color: #dbe6ff;
+        }
+        tbody tr:last-child td { border-bottom: none; }
+        tbody tr:hover td { background: rgba(100,180,255,0.1); }
+
+        .male   { color: #64b5ff; font-weight: bold; }
+        .female { color: #ff9ec7; font-weight: bold; }
+
+        .score-low    { color: #f87171; font-weight: bold; }
+        .score-mid    { color: #fbbf24; font-weight: bold; }
+        .score-good   { color: #86efac; font-weight: bold; }
+        .score-excel  { color: #c4b5fd; font-weight: bold; }
+
+        .rank-1 { background: linear-gradient(90deg, rgba(255,215,0,0.25), rgba(255,215,0,0.05)); }
+        .rank-2 { background: linear-gradient(90deg, rgba(192,192,192,0.2), rgba(192,192,192,0.05)); }
+        .rank-3 { background: linear-gradient(90deg, rgba(205,127,50,0.2), rgba(205,127,50,0.05)); }
+
+        /* 进度条 */
+        .bar {
+            display: inline-block; width: 60px; height: 8px;
+            background: rgba(255,255,255,0.12); border-radius: 4px;
+            overflow: hidden; vertical-align: middle; margin-right: 6px;
+        }
+        .bar i {
+            display: block; height: 100%; border-radius: 4px;
+            background: linear-gradient(90deg, #4a90e2, #a78bfa);
+        }
+
+        /* loader */
+        .loader { text-align: center; padding: 60px; color: #9eb4d6; }
+        .loader .spin {
+            width: 40px; height: 40px; margin: 0 auto 14px;
+            border: 3px solid rgba(255,255,255,0.1);
+            border-top-color: #64b5ff; border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .error-box {
+            text-align: center; padding: 30px;
+            background: rgba(239,68,68,0.12);
+            border: 1px solid rgba(239,68,68,0.4);
+            border-radius: 14px; color: #fca5a5;
+        }
+        .error-box code {
+            display: inline-block; margin-top: 12px; padding: 8px 14px;
+            background: rgba(0,0,0,0.4); border-radius: 6px; font-size: 12px;
+        }
+
+        @media (max-width: 768px) {
+            .stats { grid-template-columns: repeat(3, 1fr); }
+            .class-header { padding: 22px; }
+            .class-header h1 { font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- 班级信息 -->
+        <div class="class-header">
+            <div id="headerContent">
+                <h1>📚 成绩管理系统</h1>
+                <div class="loader" style="padding:20px 0;"><div class="spin"></div>加载中...</div>
+            </div>
+        </div>
+
+        <!-- 统计卡 -->
+        <div class="stats" id="statsBox"></div>
+
+        <!-- 工具栏 -->
+        <div class="toolbar">
+            <button class="active" data-sort="rank">🏆 按排名</button>
+            <button data-sort="id">🆔 按学号</button>
+            <button data-sort="name">🔤 按姓名</button>
+            <button data-sort="html">🟦 HTML 成绩</button>
+            <button data-sort="css">🟪 CSS 成绩</button>
+            <button data-sort="js">🟩 JS 成绩</button>
+            <button id="reloadBtn">🔄 重新加载</button>
+        </div>
+
+        <!-- 表格 -->
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>排名</th>
+                        <th>学号</th>
+                        <th>姓名</th>
+                        <th>性别</th>
+                        <th>HTML</th>
+                        <th>CSS</th>
+                        <th>JavaScript</th>
+                        <th>总分</th>
+                        <th>平均分</th>
+                        <th>等级</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // ============ 接口配置 ============
+        const API_BASE = 'http://localhost:3000';
+        let classInfo = null;
+        let students  = [];
+        let sortKey   = 'rank';   // 当前排序方式
+
+        // ============ Fetch 封装 ============
+        async function fetchJSON(url) {
+            const res = await fetch(url);
+            if (!res.ok) throw new Error('HTTP ' + res.status);
+            return res.json();
+        }
+
+        // ============ 并发加载 ============
+        async function loadAll() {
+            // 状态：loading
+            document.getElementById('headerContent').innerHTML = `
+                <h1>📚 成绩管理系统</h1>
+                <div class="loader" style="padding:20px 0;"><div class="spin"></div>正在从 ${API_BASE} 获取数据...</div>
+            `;
+            document.getElementById('statsBox').innerHTML = '';
+            document.getElementById('tbody').innerHTML   = '';
+
+            try {
+                // 使用 Promise.all 并发请求 /classInfo 和 /students
+                const [info, list] = await Promise.all([
+                    fetchJSON(API_BASE + '/classInfo'),
+                    fetchJSON(API_BASE + '/students')
+                ]);
+                classInfo = info;
+                students  = list;
+
+                renderHeader();
+                renderStats();
+                renderTable();
+            } catch (err) {
+                console.error(err);
+                document.getElementById('headerContent').innerHTML = `
+                    <h1>📚 成绩管理系统</h1>
+                    <div class="error-box" style="margin-top:16px;">
+                        <h3 style="margin-bottom:8px;">⚠️ 无法连接 JSON-Server</h3>
+                        <p>请在 terminal 中运行：</p>
+                        <code>cd database && npx json-server student-scores.json --port 3000</code>
+                        <p style="margin-top:10px;font-size:13px;">错误：${err.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ============ 渲染班级头 ============
+        function renderHeader() {
+            document.getElementById('headerContent').innerHTML = `
+                <h1>📚 ${classInfo.className}</h1>
+                <div class="class-meta">
+                    <span>👨‍🏫 <b>任课老师：</b>${classInfo.teacher}</span>
+                    <span>📖 <b>科目：</b>${classInfo.subject}</span>
+                    <span>📅 <b>学年：</b>${classInfo.year}</span>
+                    <span>👥 <b>学生：</b>${students.length} 人</span>
+                </div>
+                <span class="status-bar status-ok">✅ ${API_BASE} 连接成功</span>
+            `;
+        }
+
+        // ============ 渲染统计 ============
+        function renderStats() {
+            const n = students.length;
+            const totalArr = students.map(s => s.scores.html + s.scores.css + s.scores.js);
+            const avgArr   = totalArr.map(t => t / 3);
+
+            const sum = (arr) => arr.reduce((a, b) => a + b, 0);
+            const avg = (arr) => (sum(arr) / arr.length).toFixed(1);
+
+            const htmlAvg   = avg(students.map(s => s.scores.html));
+            const cssAvg    = avg(students.map(s => s.scores.css));
+            const jsAvg     = avg(students.map(s => s.scores.js));
+            const classAvg  = avg(avgArr);
+            const passCount = students.filter(s =>
+                s.scores.html >= 60 && s.scores.css >= 60 && s.scores.js >= 60
+            ).length;
+            const topIdx = avgArr.indexOf(Math.max(...avgArr));
+
+            document.getElementById('statsBox').innerHTML = `
+                <div class="stat"><div class="num">${n}</div><div class="label">学生人数</div></div>
+                <div class="stat"><div class="num">${classAvg}</div><div class="label">班级平均分</div></div>
+                <div class="stat"><div class="num">${htmlAvg}</div><div class="label">HTML 平均</div></div>
+                <div class="stat"><div class="num">${cssAvg}</div><div class="label">CSS 平均</div></div>
+                <div class="stat"><div class="num">${jsAvg}</div><div class="label">JS 平均</div></div>
+                <div class="stat"><div class="num">${students[topIdx].name}</div><div class="label">第一名 · ${avgArr[topIdx]}</div></div>
+            `;
+        }
+
+        // ============ 等级判断 ============
+        function getGrade(avg) {
+            if (avg >= 90) return { text: '优秀', cls: 'score-excel' };
+            if (avg >= 80) return { text: '良好', cls: 'score-good' };
+            if (avg >= 60) return { text: '及格', cls: 'score-mid' };
+            return { text: '不及格', cls: 'score-low' };
+        }
+
+        function scoreCls(v) {
+            if (v >= 90) return 'score-excel';
+            if (v >= 80) return 'score-good';
+            if (v >= 60) return 'score-mid';
+            return 'score-low';
+        }
+
+        // ============ 排序 ============
+        function sortStudents(key) {
+            const list = [...students];
+            if (key === 'rank') {
+                return list.sort((a, b) => {
+                    const ta = a.scores.html + a.scores.css + a.scores.js;
+                    const tb = b.scores.html + b.scores.css + b.scores.js;
+                    return tb - ta;
+                });
+            }
+            if (key === 'id')   return list.sort((a, b) => a.id - b.id);
+            if (key === 'name') return list.sort((a, b) => a.name.localeCompare(b.name, 'zh'));
+            // 单科排序
+            return list.sort((a, b) => b.scores[key] - a.scores[key]);
+        }
+
+        // ============ 渲染表格 ============
+        function renderTable() {
+            const sorted = sortStudents(sortKey);
+
+            // 如果按排名排就有 rank，否则按当前顺序给 rank
+            let rankMap = new Map();
+            if (sortKey === 'rank') {
+                sorted.forEach((s, i) => rankMap.set(s.id, i + 1));
+            } else {
+                const ranked = sortStudents('rank');
+                ranked.forEach((s, i) => rankMap.set(s.id, i + 1));
+            }
+
+            document.getElementById('tbody').innerHTML = sorted.map(s => {
+                const total = s.scores.html + s.scores.css + s.scores.js;
+                const avg   = (total / 3).toFixed(1);
+                const grade = getGrade(avg);
+                const rank  = rankMap.get(s.id);
+                const rankCls = rank === 1 ? 'rank-1' : rank === 2 ? 'rank-2' : rank === 3 ? 'rank-3' : '';
+
+                return `
+                    <tr class="${rankCls}">
+                        <td><strong>${rank}</strong>${rank <= 3 ? ' 🥇🥈🥉'[rank - 1] : ''}</td>
+                        <td>${s.no}</td>
+                        <td><strong>${s.name}</strong></td>
+                        <td class="${s.gender === '男' ? 'male' : 'female'}">${s.gender}</td>
+                        <td class="${scoreCls(s.scores.html)}">
+                            <span class="bar"><i style="width:${s.scores.html}%"></i></span>${s.scores.html}
+                        </td>
+                        <td class="${scoreCls(s.scores.css)}">
+                            <span class="bar"><i style="width:${s.scores.css}%"></i></span>${s.scores.css}
+                        </td>
+                        <td class="${scoreCls(s.scores.js)}">
+                            <span class="bar"><i style="width:${s.scores.js}%"></i></span>${s.scores.js}
+                        </td>
+                        <td><strong>${total}</strong></td>
+                        <td>${avg}</td>
+                        <td class="${grade.cls}">${grade.text}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // ============ 绑定工具栏 ============
+        document.querySelectorAll('.toolbar button[data-sort]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                sortKey = btn.dataset.sort;
+                document.querySelectorAll('.toolbar button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                renderTable();
+            });
+        });
+        document.getElementById('reloadBtn').addEventListener('click', loadAll);
+
+        // ============ 启动 ============
+        loadAll();
+    </script>
+</body>
+</html>

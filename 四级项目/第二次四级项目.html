@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<!-- 高级网页设计I 四级项目 · 图像解决方案（下导航 · 字体图标 + SVG）
+     选题：携程旅行   学号：24001010618   姓名：樊宏宇   班级：计算机24006 -->
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>携程旅行 · 下导航（字体图标 / SVG）</title>
+    <link rel="stylesheet" href="css/common2.css">
+    <style>
+        /* ========== 1. 字体图标：@font-face 引入字体，伪元素写图标编码 ========== */
+        @font-face {
+            font-family: "fhyicon";
+            src: url("font/iconfont.woff2") format("woff2"),
+                 url("font/iconfont.woff") format("woff"),
+                 url("font/iconfont.ttf") format("truetype");
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .fhy-icon {
+            font-family: "fhyicon" !important;
+            font-size: 24px;               
+            font-style: normal;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .fhy-icon-home::before    { content: "\e600"; }
+        .fhy-icon-explore::before { content: "\e601"; }
+        .fhy-icon-order::before   { content: "\e602"; }
+        .fhy-icon-mine::before    { content: "\e603"; }
+
+        /* ========== 2. 下导航：贴底、四项等分、宽度跟着视口走 ========== */
+        .fhy-tabbar {
+            position: fixed;
+            left: 50%;
+            transform: translateX(-50%);    /* 与手机容器同宽并居中 */
+            bottom: 0;
+            z-index: 10;
+            display: none;                  /* 默认隐藏，由方案按钮切换 */
+            width: 100%;
+            max-width: 420px;
+            height: 56px;
+            background: #fff;
+            border-top: 1px solid #e6e6e6;
+            box-shadow: 0 -1px 8px rgba(0, 0, 0, .06);
+        }
+
+        .fhy-tabbar__item {
+            flex: 1;                        /* 关键：四项等分，容器多宽都均分 */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #999;
+            transition: color .2s;
+        }
+
+        .fhy-tabbar__item:hover,
+        .fhy-tabbar__item.is-active {
+            color: #0086f6;
+        }
+
+        .fhy-tabbar__text {
+            margin-top: 3px;
+            font-size: 11px;
+            line-height: 1;
+        }
+
+        /* ========== 3. SVG：symbol 定义一次，use 复用，描边颜色跟着文字走 ========== */
+        .fhy-sprite {
+            position: absolute;
+            width: 0;
+            height: 0;
+            overflow: hidden;
+        }
+
+        .fhy-svg {
+            width: 24px;
+            height: 24px;
+            fill: none;                     /* 线性图标：不填充，只描边 */
+            stroke: currentColor;           /* 颜色继承 .fhy-tabbar__item 的 color */
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* ========== 4. 两套导航的切换：单选按钮 + 兄弟选择器 ========== */
+        .fhy-radio {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        #fhy-s1:checked ~ .fhy-tabbar--font { display: flex; }
+        #fhy-s2:checked ~ .fhy-tabbar--svg  { display: flex; }
+
+        /* ========== 5. 页面内容：给下导航一个真实的使用场景 ========== */
+        .fhy-hero {
+            padding: 22px 16px 24px;
+            background: linear-gradient(135deg, #0a7ff0 0%, #45b0ff 100%);
+            border-radius: 0 0 18px 18px;
+            color: #fff;
+        }
+
+        .fhy-hero__city {
+            font-size: 13px;
+            opacity: .92;
+        }
+
+        .fhy-hero__search {
+            display: flex;
+            align-items: center;
+            height: 42px;
+            margin-top: 10px;
+            padding: 0 16px;
+            background: #fff;
+            border-radius: 21px;
+            font-size: 13px;
+            color: #9aa3ad;
+        }
+
+        .fhy-hero__slogan {
+            margin-top: 16px;
+            font-size: 19px;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .fhy-sec {
+            padding: 18px 16px 0;
+        }
+
+        .fhy-sec__title {
+            margin-bottom: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            color: #222;
+        }
+
+        .fhy-dest__list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;  /* 两列等宽 */
+            gap: 10px;
+        }
+
+        .fhy-dest__item {
+            overflow: hidden;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .06);
+        }
+
+        .fhy-dest__pic {
+            width: 100%;
+            height: 104px;
+            object-fit: cover;               /* 竖版原图裁成横版，不变形 */
+        }
+
+        .fhy-dest__body {
+            padding: 8px 10px 10px;
+        }
+
+        .fhy-dest__name {
+            font-size: 13px;
+            color: #222;
+        }
+
+        .fhy-dest__price {
+            margin-top: 2px;
+            font-size: 12px;
+            color: #ff7700;
+        }
+
+        .fhy-list__item {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin-bottom: 10px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 1px 6px rgba(0, 0, 0, .06);
+        }
+
+        .fhy-list__tag {
+            flex: none;
+            padding: 1px 6px;
+            margin-right: 10px;
+            background: #fff3e8;
+            border-radius: 4px;
+            font-size: 11px;
+            color: #ff7700;
+        }
+
+        .fhy-list__info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .fhy-list__name {
+            font-size: 13px;
+            color: #222;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .fhy-list__sub {
+            margin-top: 2px;
+            font-size: 11px;
+            color: #999;
+        }
+
+        .fhy-list__price {
+            flex: none;
+            margin-left: 8px;
+            font-size: 14px;
+            color: #ff7700;
+        }
+
+        /* ========== 6. 小屏断点：导航与图标整体收一点 ========== */
+        @media (max-width: 420px) {
+            .fhy-tabbar {
+                height: 52px;
+            }
+
+            .fhy-icon {
+                font-size: 22px;
+            }
+
+            .fhy-svg {
+                width: 22px;
+                height: 22px;
+            }
+
+            .fhy-hero__slogan {
+                font-size: 17px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <input class="fhy-radio" type="radio" name="fhy-scheme" id="fhy-s1" checked>
+    <input class="fhy-radio" type="radio" name="fhy-scheme" id="fhy-s2">
+
+    <!-- SVG 图标源：symbol 只做定义不占位置，下面用 use 按 id 复用 -->
+    <svg xmlns="http://www.w3.org/2000/svg" class="fhy-sprite" aria-hidden="true">
+        <symbol id="fhy-sym-home" viewBox="0 0 24 24">
+            <path d="M4 10.8 12 4l8 6.8V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/>
+        </symbol>
+        <symbol id="fhy-sym-explore" viewBox="0 0 24 24">
+            <path d="M12 21.5c3.6-3.6 7-7.2 7-11.2a7 7 0 0 0-14 0c0 4 3.4 7.6 7 11.2z"/>
+            <circle cx="12" cy="10.2" r="2.6"/>
+        </symbol>
+        <symbol id="fhy-sym-order" viewBox="0 0 24 24">
+            <path d="M7 4.5h10A1.5 1.5 0 0 1 18.5 6v13A1.5 1.5 0 0 1 17 20.5H7A1.5 1.5 0 0 1 5.5 19V6A1.5 1.5 0 0 1 7 4.5z"/>
+            <path d="M9 9.5h6M9 13h6M9 16.5h4"/>
+        </symbol>
+        <symbol id="fhy-sym-mine" viewBox="0 0 24 24">
+            <circle cx="12" cy="8.2" r="3.6"/>
+            <path d="M4.8 20c1.4-3.5 4-5.3 7.2-5.3s5.8 1.8 7.2 5.3"/>
+        </symbol>
+    </svg>
+
+    <!-- 方案切换，仅桌面显示 -->
+    <div class="fhy-switch">
+        <label class="fhy-switch__btn" for="fhy-s1">字体图标</label>
+        <label class="fhy-switch__btn" for="fhy-s2">SVG</label>
+    </div>
+
+    <div class="fhy-phone">
+        <!-- 顶部搜索区 -->
+        <header class="fhy-hero">
+            <p class="fhy-hero__city">上海 · 出发</p>
+            <div class="fhy-hero__search">搜索目的地 / 酒店 / 机票</div>
+            <h1 class="fhy-hero__slogan">携程旅行 · 说走就走</h1>
+        </header>
+
+        <!-- 热门目的地：四张卡片两列排布 -->
+        <section class="fhy-sec">
+            <h2 class="fhy-sec__title">热门目的地</h2>
+            <div class="fhy-dest__list">
+                <a class="fhy-dest__item" href="#">
+                    <img class="fhy-dest__pic" src="images/sanya.png" alt="三亚">
+                    <div class="fhy-dest__body">
+                        <p class="fhy-dest__name">三亚</p>
+                        <p class="fhy-dest__price">¥899 起</p>
+                    </div>
+                </a>
+                <a class="fhy-dest__item" href="#">
+                    <img class="fhy-dest__pic" src="images/lijiang.png" alt="丽江">
+                    <div class="fhy-dest__body">
+                        <p class="fhy-dest__name">丽江</p>
+                        <p class="fhy-dest__price">¥799 起</p>
+                    </div>
+                </a>
+                <a class="fhy-dest__item" href="#">
+                    <img class="fhy-dest__pic" src="images/chengdu.png" alt="成都">
+                    <div class="fhy-dest__body">
+                        <p class="fhy-dest__name">成都</p>
+                        <p class="fhy-dest__price">¥659 起</p>
+                    </div>
+                </a>
+                <a class="fhy-dest__item" href="#">
+                    <img class="fhy-dest__pic" src="images/xian.png" alt="西安">
+                    <div class="fhy-dest__body">
+                        <p class="fhy-dest__name">西安</p>
+                        <p class="fhy-dest__price">¥589 起</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 特惠推荐 -->
+        <section class="fhy-sec">
+            <h2 class="fhy-sec__title">为你推荐</h2>
+            <a class="fhy-list__item" href="#">
+                <span class="fhy-list__tag">特惠</span>
+                <div class="fhy-list__info">
+                    <p class="fhy-list__name">上海 → 三亚 往返机票</p>
+                    <p class="fhy-list__sub">11 月 8 日出发 · 含税价</p>
+                </div>
+                <span class="fhy-list__price">¥680</span>
+            </a>
+            <a class="fhy-list__item" href="#">
+                <span class="fhy-list__tag">酒店</span>
+                <div class="fhy-list__info">
+                    <p class="fhy-list__name">丽江古城精品客栈 1 晚</p>
+                    <p class="fhy-list__sub">近四方街 · 含双早</p>
+                </div>
+                <span class="fhy-list__price">¥328</span>
+            </a>
+            <a class="fhy-list__item" href="#">
+                <span class="fhy-list__tag">门票</span>
+                <div class="fhy-list__info">
+                    <p class="fhy-list__name">成都大熊猫基地 成人票</p>
+                    <p class="fhy-list__sub">随买随用 · 免排队入园</p>
+                </div>
+                <span class="fhy-list__price">¥55</span>
+            </a>
+        </section>
+    </div>
+
+    <!-- 方案一：字体图标下导航 -->
+    <nav class="fhy-tabbar fhy-tabbar--font">
+        <a class="fhy-tabbar__item is-active" href="#">
+            <i class="fhy-icon fhy-icon-home"></i>
+            <span class="fhy-tabbar__text">首页</span>
+        </a>
+        <a class="fhy-tabbar__item" href="#">
+            <i class="fhy-icon fhy-icon-explore"></i>
+            <span class="fhy-tabbar__text">旅图</span>
+        </a>
+        <a class="fhy-tabbar__item" href="#">
+            <i class="fhy-icon fhy-icon-order"></i>
+            <span class="fhy-tabbar__text">订单</span>
+        </a>
+        <a class="fhy-tabbar__item" href="#">
+            <i class="fhy-icon fhy-icon-mine"></i>
+            <span class="fhy-tabbar__text">我的</span>
+        </a>
+    </nav>
+
+    <!-- 方案二：SVG 下导航 -->
+    <nav class="fhy-tabbar fhy-tabbar--svg">
+        <a class="fhy-tabbar__item is-active" href="#">
+            <svg class="fhy-svg" aria-hidden="true"><use href="#fhy-sym-home"></use></svg>
+            <span class="fhy-tabbar__text">首页</span>
+        </a>
+        <a class="fhy-tabbar__item" href="#">
+            <svg class="fhy-svg" aria-hidden="true"><use href="#fhy-sym-explore"></use></svg>
+            <span class="fhy-tabbar__text">旅图</span>
+        </a>
+        <a class="fhy-tabbar__item" href="#">
+            <svg class="fhy-svg" aria-hidden="true"><use href="#fhy-sym-order"></use></svg>
+            <span class="fhy-tabbar__text">订单</span>
+        </a>
+        <a class="fhy-tabbar__item" href="#">
+            <svg class="fhy-svg" aria-hidden="true"><use href="#fhy-sym-mine"></use></svg>
+            <span class="fhy-tabbar__text">我的</span>
+        </a>
+    </nav>
+</body>
+</html>

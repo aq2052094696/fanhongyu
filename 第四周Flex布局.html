@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>618 樊宏宇 Flex布局</title>
+
+    <style>
+        ul {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+        }
+
+        /* Flex容器 */
+        .list {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        /* Flex项目 */
+        .list li {
+            width: 40%;
+            line-height: 300px;
+
+            color: #fff;
+            background-color: #ccc;
+            border: 3px dotted #ff0;
+
+            text-align: center;
+        }
+    </style>
+
+    <!--
+        display:flex 写在哪个元素上，
+        哪个元素就是 Flex 容器。
+
+        .list 是 Flex 容器；
+        .list 里面的 li 是 Flex 项目。
+    -->
+</head>
+
+<body>
+    <ul class="list">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+    </ul>
+</body>
+</html>

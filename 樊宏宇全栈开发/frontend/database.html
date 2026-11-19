@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<!-- 姓名：樊宏宇 | 学号：24001010618 | 时间：2026-11-19 | 大模型：Tencent Hunyuan Hy -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fanhy · 数据库连接测试</title>
+<link rel="stylesheet" href="css/Fanhy_theme.css">
+<style>
+  .Fanhy_conn-layout {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 24px;
+    margin-top: 22px;
+    align-items: start;
+  }
+  .Fanhy_form { padding: 32px; }
+  .Fanhy_form h3 { margin: 0 0 22px; font-size: 20px; }
+  .Fanhy_field { margin-bottom: 18px; }
+  .Fanhy_field label {
+    display: block;
+    font-size: 13px;
+    color: var(--Fanhy-ink-soft);
+    margin-bottom: 8px;
+    letter-spacing: .5px;
+  }
+  .Fanhy_input {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 12px;
+    border: 1px solid var(--Fanhy-glass-line);
+    background: rgba(255,255,255,.04);
+    color: var(--Fanhy-ink);
+    font-size: 15px;
+    font-family: Consolas, monospace;
+    outline: none;
+    transition: border-color .25s, box-shadow .25s, background .25s;
+  }
+  .Fanhy_input:focus {
+    border-color: var(--Fanhy-cyan);
+    background: rgba(255,255,255,.07);
+    box-shadow: 0 0 0 3px rgba(77,227,255,.12);
+  }
+  .Fanhy_submit {
+    width: 100%;
+    margin-top: 8px;
+    padding: 14px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 800;
+    color: #05121a;
+    cursor: pointer;
+    background: linear-gradient(100deg, var(--Fanhy-cyan), var(--Fanhy-violet));
+    box-shadow: 0 10px 28px rgba(77,227,255,.28);
+    transition: transform .2s, box-shadow .2s, opacity .2s;
+  }
+  .Fanhy_submit:hover { transform: translateY(-2px); box-shadow: 0 16px 36px rgba(77,227,255,.38); }
+  .Fanhy_submit:active { transform: translateY(0); }
+  .Fanhy_submit:disabled { opacity: .55; cursor: not-allowed; transform: none; }
+
+  .Fanhy_result { padding: 32px; min-height: 260px; }
+  .Fanhy_result h3 { margin: 0 0 20px; font-size: 20px; }
+  .Fanhy_status {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px;
+    border-radius: 16px;
+    margin-bottom: 18px;
+    background: rgba(255,255,255,.03);
+    border: 1px solid var(--Fanhy-glass-line);
+  }
+  .Fanhy_status-icon {
+    width: 54px; height: 54px;
+    flex: 0 0 54px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    background: rgba(255,255,255,.05);
+  }
+  .Fanhy_status-text b { display: block; font-size: 17px; margin-bottom: 4px; }
+  .Fanhy_status-text span { font-size: 13px; color: var(--Fanhy-ink-soft); }
+  .Fanhy_status.Fanhy_ok .Fanhy_status-icon { background: rgba(74,222,128,.15); color: #4ade80; box-shadow: 0 0 22px rgba(74,222,128,.25); }
+  .Fanhy_status.Fanhy_err .Fanhy_status-icon { background: rgba(248,113,113,.15); color: #f87171; box-shadow: 0 0 22px rgba(248,113,113,.25); }
+  .Fanhy_status.Fanhy_idle .Fanhy_status-icon { color: var(--Fanhy-muted); }
+  .Fanhy_detail {
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.9;
+    color: var(--Fanhy-ink-soft);
+    background: rgba(0,0,0,.25);
+    padding: 16px 18px;
+    border-radius: 12px;
+    word-break: break-all;
+  }
+  .Fanhy_detail .Fanhy_key { color: var(--Fanhy-cyan); }
+  .Fanhy_tip { margin-top: 16px; font-size: 12.5px; color: var(--Fanhy-muted); }
+  .Fanhy_tip code { color: var(--Fanhy-gold); font-family: Consolas, monospace; }
+
+  @media (max-width: 860px) {
+    .Fanhy_conn-layout { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body class="Fanhy-body">
+
+<div class="Fanhy-fluid" aria-hidden="true">
+  <div class="Fanhy-blob Fanhy-blob-a"></div>
+  <div class="Fanhy-blob Fanhy-blob-b"></div>
+  <div class="Fanhy-blob Fanhy-blob-c"></div>
+</div>
+<canvas id="Fanhy_particleCanvas" class="Fanhy_particles" aria-hidden="true"></canvas>
+
+<div class="Fanhy_wrap">
+  <header class="Fanhy_topbar">
+    <div class="Fanhy_topbar-brand">
+      <span class="Fanhy_logo-dot"></span>
+      <a href="index.html" class="Fanhy_gradient-text" style="text-decoration:none;">FANHY · STUDIO</a>
+    </div>
+    <a href="index.html" class="Fanhy_btn">← 返回展厅</a>
+  </header>
+
+  <div class="Fanhy_page-head Fanhy_reveal">
+    <span class="Fanhy_page-kicker">01 / DATABASE</span>
+    <h1 class="Fanhy_page-title Fanhy_gradient-text">数据库连接测试</h1>
+    <p class="Fanhy_page-desc">输入 MySQL 的用户名与密码，通过后端接口发起真实连接测试。默认用户 root、密码 root，成功与失败都会给出明确提示。</p>
+  </div>
+
+  <div class="Fanhy_api-bar Fanhy_glass Fanhy_reveal">
+    <span class="Fanhy_method">POST</span>
+    <span>接口：</span>
+    <a href="http://localhost:8618/api/db/test" target="_blank">http://localhost:8618/api/db/test</a>
+  </div>
+
+  <div class="Fanhy_conn-layout">
+    <form class="Fanhy_form Fanhy_glass Fanhy_reveal" id="Fanhy_connForm">
+      <h3>🔐 连接参数</h3>
+      <div class="Fanhy_field">
+        <label for="Fanhy_user">用户名 / USER</label>
+        <input class="Fanhy_input" id="Fanhy_user" type="text" value="root" autocomplete="off" placeholder="root">
+      </div>
+      <div class="Fanhy_field">
+        <label for="Fanhy_password">密码 / PASSWORD</label>
+        <input class="Fanhy_input" id="Fanhy_password" type="password" value="root" autocomplete="off" placeholder="••••••">
+      </div>
+      <button class="Fanhy_submit" id="Fanhy_submitBtn" type="submit">连接数据库 →</button>
+      <p class="Fanhy_tip">默认密码为 <code>root</code>；实际连接需与本机 MySQL 或 <code>backend/.env</code> 配置一致。</p>
+    </form>
+
+    <div class="Fanhy_result Fanhy_glass Fanhy_reveal">
+      <h3>📡 测试结果</h3>
+      <div class="Fanhy_status Fanhy_idle" id="Fanhy_status">
+        <div class="Fanhy_status-icon" id="Fanhy_statusIcon">◌</div>
+        <div class="Fanhy_status-text">
+          <b id="Fanhy_statusTitle">等待连接</b>
+          <span id="Fanhy_statusSub">填写参数后点击「连接数据库」</span>
+        </div>
+      </div>
+      <div class="Fanhy_detail" id="Fanhy_detail">
+<span class="Fanhy_key">status</span>: idle
+<span class="Fanhy_key">message</span>: 尚未发起测试
+      </div>
+    </div>
+  </div>
+
+  <footer class="Fanhy_footer">樊宏宇 · 24001010618 · Fanhy 全栈典藏展厅</footer>
+</div>
+
+<script src="js/Fanhy_particles.js"></script>
+<script>
+  /* 姓名：樊宏宇 | 学号：24001010618 | 时间：2026-11-19 | 大模型：Tencent Hunyuan Hy */
+  (function () {
+    var Fanhy_form = document.getElementById('Fanhy_connForm');
+    var Fanhy_btn = document.getElementById('Fanhy_submitBtn');
+    var Fanhy_status = document.getElementById('Fanhy_status');
+    var Fanhy_icon = document.getElementById('Fanhy_statusIcon');
+    var Fanhy_title = document.getElementById('Fanhy_statusTitle');
+    var Fanhy_sub = document.getElementById('Fanhy_statusSub');
+    var Fanhy_detail = document.getElementById('Fanhy_detail');
+
+    function Fanhy_showResult(Fanhy_okFlag, Fanhy_msg, Fanhy_data) {
+      Fanhy_status.className = 'Fanhy_status ' + (Fanhy_okFlag ? 'Fanhy_ok' : 'Fanhy_err');
+      Fanhy_icon.textContent = Fanhy_okFlag ? '✓' : '✗';
+      Fanhy_title.textContent = Fanhy_okFlag ? '连接成功' : '连接失败';
+      Fanhy_sub.textContent = Fanhy_msg;
+      Fanhy_detail.innerHTML =
+        '<span class="Fanhy_key">code</span>: ' + Fanhy_data.code + '\n' +
+        '<span class="Fanhy_key">msg</span>: ' + Fanhy_data.msg + '\n' +
+        '<span class="Fanhy_key">connected</span>: ' + Fanhy_data.data.connected + '\n' +
+        '<span class="Fanhy_key">user</span>: ' + Fanhy_data.data.user;
+    }
+
+    Fanhy_form.addEventListener('submit', function (Fanhy_e) {
+      Fanhy_e.preventDefault();
+      var Fanhy_user = document.getElementById('Fanhy_user').value.trim();
+      var Fanhy_password = document.getElementById('Fanhy_password').value;
+      Fanhy_btn.disabled = true;
+      Fanhy_btn.textContent = '连接中…';
+
+      fetch('http://localhost:8618/api/db/test', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user: Fanhy_user, password: Fanhy_password })
+      })
+      .then(function (Fanhy_r) { return Fanhy_r.json(); })
+      .then(function (Fanhy_data) {
+        console.log('[Fanhy] /api/db/test 返回：', Fanhy_data);
+        Fanhy_showResult(Fanhy_data.data.connected === true, Fanhy_data.msg, Fanhy_data);
+      })
+      .catch(function (Fanhy_err) {
+        console.error('[Fanhy] /api/db/test 错误：', Fanhy_err);
+        Fanhy_status.className = 'Fanhy_status Fanhy_err';
+        Fanhy_icon.textContent = '✗';
+        Fanhy_title.textContent = '请求失败';
+        Fanhy_sub.textContent = '请确认后端服务已启动（端口 8618）';
+        Fanhy_detail.innerHTML = '<span class="Fanhy_key">error</span>: ' + Fanhy_err.message;
+      })
+      .finally(function () {
+        Fanhy_btn.disabled = false;
+        Fanhy_btn.textContent = '连接数据库 →';
+      });
+    });
+
+    // 滚动淡入
+    var Fanhy_io = new IntersectionObserver(function (Fanhy_entries) {
+      Fanhy_entries.forEach(function (Fanhy_e) {
+        if (Fanhy_e.isIntersecting) { Fanhy_e.target.classList.add('Fanhy_visible'); Fanhy_io.unobserve(Fanhy_e.target); }
+      });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.Fanhy_reveal').forEach(function (Fanhy_el) { Fanhy_io.observe(Fanhy_el); });
+  })();
+</script>
+</body>
+</html>

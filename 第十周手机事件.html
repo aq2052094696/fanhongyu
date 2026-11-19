@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 手机事件</title>
+    <style>
+        body,div{
+            margin: 0;
+            padding: 0;
+        }
+        #box,body,html{
+            height: 100%;
+        }
+        #box{
+            line-height: 150%;
+            font-size: 5vw;
+            color: #0d56ae;
+            text-align: center;
+            background-color: #7f1be3;
+        }
+    </style>
+</head>
+<body>
+    <div id="box">樊宏宇的手机事件</div>
+    <script>
+        //定义变量，存储触屏时的x坐标和y坐标，时间
+        var x,y,t;
+        box.ontouchstart = (e) => {
+            //获取触屏时的x坐标和y坐标，时间
+            var touch = e.targetTouches[0];
+            x = touch.pageX;
+            y = touch.pageY;
+            console.log(x,y);
+            t = new Date().getTime();
+            box.innerHTML = "您触屏了！";
+        }
+        box.ontouchend = (e) => {
+            var touch = e.changedTouches[0];
+            var x2 = touch.pageX;
+            var y2 = touch.pageY;
+            console.log(x2,y2);
+            if(x2>x){
+                box.innerHTML = "您向右滑动了！";
+            }
+            else{
+                box.innerHTML = "您向左滑动了！";
+            }
+            var t2 = new Date().getTime();
+            if(t2-t<300){
+                box.innerHTML = "快滑！";
+            }
+            else{
+                box.innerHTML = "慢滑！";
+            }
+        }
+    </script>
+</body>
+</html>
+

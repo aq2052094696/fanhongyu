@@ -1,0 +1,270 @@
+/**
+ * 姓名：樊宏宇 | 学号：24001010618 | 时间：2026-11-19 | 大模型：Tencent Hunyuan Hy
+ * 全站共享典藏主题：流体渐变 + 玻璃拟态 + 星空粒子基调
+ * 原生 CSS，无任何第三方库 / 框架 / CDN
+ */
+
+:root {
+  --Fanhy-bg-deep: #05060f;
+  --Fanhy-bg-mid: #0a0e24;
+  --Fanhy-ink: #eef2ff;
+  --Fanhy-ink-soft: #aab4d4;
+  --Fanhy-muted: #7c87ad;
+  --Fanhy-cyan: #4de3ff;
+  --Fanhy-violet: #9b6bff;
+  --Fanhy-pink: #ff5fa2;
+  --Fanhy-gold: #f7d488;
+  --Fanhy-glass: rgba(255, 255, 255, 0.06);
+  --Fanhy-glass-strong: rgba(255, 255, 255, 0.1);
+  --Fanhy-glass-line: rgba(255, 255, 255, 0.14);
+  --Fanhy-radius: 22px;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body.Fanhy-body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--Fanhy-bg-deep);
+  color: var(--Fanhy-ink);
+  font-family: "PingFang SC", "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* ===== 流体渐变背景（固定在最底层，缓慢流动） ===== */
+.Fanhy-fluid {
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at 20% 10%, #10193f 0%, transparent 55%),
+    radial-gradient(ellipse at 85% 85%, #160c33 0%, transparent 55%),
+    linear-gradient(160deg, #05060f 0%, #080b1e 50%, #05060f 100%);
+}
+
+.Fanhy-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  opacity: 0.55;
+  will-change: transform;
+}
+
+.Fanhy-blob-a {
+  width: 46vw; height: 46vw;
+  left: -10vw; top: -12vw;
+  background: radial-gradient(circle, rgba(77,227,255,.55), rgba(77,227,255,0) 70%);
+  animation: Fanhy_driftA 22s ease-in-out infinite alternate;
+}
+.Fanhy-blob-b {
+  width: 42vw; height: 42vw;
+  right: -8vw; top: 10vh;
+  background: radial-gradient(circle, rgba(155,107,255,.55), rgba(155,107,255,0) 70%);
+  animation: Fanhy_driftB 26s ease-in-out infinite alternate;
+}
+.Fanhy-blob-c {
+  width: 40vw; height: 40vw;
+  left: 25vw; bottom: -18vw;
+  background: radial-gradient(circle, rgba(255,95,162,.4), rgba(255,95,162,0) 70%);
+  animation: Fanhy_driftC 30s ease-in-out infinite alternate;
+}
+
+@keyframes Fanhy_driftA {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(8vw, 6vh) scale(1.15); }
+}
+@keyframes Fanhy_driftB {
+  0%   { transform: translate(0, 0) scale(1.05); }
+  100% { transform: translate(-9vw, 8vh) scale(.92); }
+}
+@keyframes Fanhy_driftC {
+  0%   { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(6vw, -7vh) scale(1.2); }
+}
+
+/* 全局星点噪点，增强质感 */
+.Fanhy-fluid::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    radial-gradient(rgba(255,255,255,.18) 1px, transparent 1px),
+    radial-gradient(rgba(255,255,255,.12) 1px, transparent 1px);
+  background-size: 90px 90px, 140px 140px;
+  background-position: 0 0, 45px 70px;
+  opacity: .25;
+}
+
+/* ===== 星空粒子画布（覆盖全屏，位于内容与渐变之间） ===== */
+canvas.Fanhy_particles {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* ===== 玻璃拟态卡片 ===== */
+.Fanhy_glass {
+  background: linear-gradient(135deg, var(--Fanhy-glass-strong), var(--Fanhy-glass));
+  border: 1px solid var(--Fanhy-glass-line);
+  border-radius: var(--Fanhy-radius);
+  backdrop-filter: blur(18px) saturate(160%);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  box-shadow:
+    0 18px 50px rgba(0, 0, 0, .45),
+    inset 0 1px 0 rgba(255, 255, 255, .12);
+}
+
+/* ===== 通用容器 ===== */
+.Fanhy_wrap {
+  width: min(1180px, 92vw);
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== 顶部导航条（内页通用） ===== */
+.Fanhy_topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px 0;
+  flex-wrap: wrap;
+}
+.Fanhy_topbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 800;
+  letter-spacing: .5px;
+}
+.Fanhy_logo-dot {
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, var(--Fanhy-cyan), var(--Fanhy-violet), var(--Fanhy-pink), var(--Fanhy-cyan));
+  box-shadow: 0 0 18px var(--Fanhy-cyan);
+  animation: Fanhy_spin 6s linear infinite;
+}
+@keyframes Fanhy_spin { to { transform: rotate(360deg); } }
+
+.Fanhy_btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--Fanhy-glass-line);
+  background: var(--Fanhy-glass);
+  color: var(--Fanhy-ink);
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: transform .25s, border-color .25s, background .25s, box-shadow .25s;
+}
+.Fanhy_btn:hover {
+  transform: translateY(-2px);
+  border-color: var(--Fanhy-cyan);
+  background: var(--Fanhy-glass-strong);
+  box-shadow: 0 8px 24px rgba(77, 227, 255, .22);
+}
+
+/* ===== 渐变文字 ===== */
+.Fanhy_gradient-text {
+  background: linear-gradient(100deg, var(--Fanhy-cyan), var(--Fanhy-violet) 45%, var(--Fanhy-pink) 75%, var(--Fanhy-gold));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  background-size: 200% auto;
+  animation: Fanhy_shine 8s linear infinite;
+}
+@keyframes Fanhy_shine { to { background-position: 200% center; } }
+
+/* ===== 页面标题区（内页通用） ===== */
+.Fanhy_page-head {
+  padding: 26px 0 8px;
+}
+.Fanhy_page-kicker {
+  display: inline-block;
+  font-size: 13px;
+  letter-spacing: 3px;
+  color: var(--Fanhy-cyan);
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.Fanhy_page-title {
+  margin: 0 0 10px;
+  font-size: clamp(30px, 5vw, 52px);
+  font-weight: 900;
+  line-height: 1.15;
+}
+.Fanhy_page-desc {
+  margin: 0;
+  color: var(--Fanhy-ink-soft);
+  font-size: 16px;
+  max-width: 720px;
+}
+
+/* ===== 接口信息条（内页通用） ===== */
+.Fanhy_api-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 14px 18px;
+  margin: 20px 0 8px;
+  font-family: Consolas, "Courier New", monospace;
+  font-size: 13.5px;
+  color: var(--Fanhy-cyan);
+}
+.Fanhy_api-bar a { color: var(--Fanhy-gold); text-decoration: none; word-break: break-all; }
+.Fanhy_api-bar a:hover { text-decoration: underline; }
+.Fanhy_method {
+  padding: 2px 10px;
+  border-radius: 6px;
+  background: rgba(77, 227, 255, .15);
+  color: var(--Fanhy-cyan);
+  font-weight: 700;
+}
+
+/* ===== Footer ===== */
+.Fanhy_footer {
+  text-align: center;
+  padding: 40px 0 26px;
+  color: var(--Fanhy-muted);
+  font-size: 13px;
+  letter-spacing: .5px;
+}
+
+/* ===== 滚动淡入动画 ===== */
+.Fanhy_reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity .7s cubic-bezier(.2,.7,.3,1), transform .7s cubic-bezier(.2,.7,.3,1);
+}
+.Fanhy_reveal.Fanhy_visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (max-width: 720px) {
+  .Fanhy_topbar { padding: 14px 0; }
+  .Fanhy_page-title { font-size: 30px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}

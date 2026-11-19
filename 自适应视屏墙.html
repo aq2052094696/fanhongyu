@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 Flex视频卡片墙</title>
+    <link rel="stylesheet" href="./css/pub.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        .list {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 10px;
+            background: #f5f5f5;
+        }
+
+        .list li {
+            width: 25%;
+            margin-left: 1px;
+            flex-grow: 1;
+            list-style: none;
+            background: #fff;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+
+        /* 视频封面区域 */
+        .list li .cover {
+            position: relative;
+            width: 100%;
+            display: block;
+        }
+
+        .list li .cover img {
+            width: 100%;
+            display: block;
+        }
+
+        /* 播放按钮 */
+        .list li .cover .play {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            background: rgba(0, 0, 0, 0.55);
+            border-radius: 50%;
+        }
+
+        .list li .cover .play::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-45%, -50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid #fff;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+
+        /* 视频标题 */
+        .list li .title {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.4rem;
+            line-height: 0.45rem;
+            margin: 8px 6px 4px;
+            color: #222;
+        }
+
+        /* 视频信息 */
+        .list li .info {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-size: 0.32rem;
+            line-height: 0.4rem;
+            color: #888;
+            margin: 0 6px 8px;
+        }
+    </style>
+</head>
+<body>
+
+    <ul class="list">
+        <li>
+            <a href="#" class="cover">
+                <img src="./img/1.jpg" alt="视频封面">
+                <span class="play"></span>
+            </a>
+            <p class="title">樊宏宇讲解前端flex弹性布局视频教你制作卡片网页案例演示完整教程</p>
+            <p class="info">播放量128.6万次 · 弹幕3.2万条 · 发布于2026-09-28 · 前端入门教学视频推荐收藏</p>
+        </li>
+
+        <li>
+            <a href="#" class="cover">
+                <img src="./img/2.jpg" alt="视频封面">
+                <span class="play"></span>
+            </a>
+            <p class="title">CSS文字溢出省略号实战演示,flex弹性盒子自适应布局教学视频</p>
+            <p class="info">播放量96.4万次 · 弹幕1.8万条 · 发布于2026-09-20 · 零基础网页制作教程完整分享</p>
+        </li>
+
+        <li>
+            <a href="#" class="cover">
+                <img src="./img/3.jpg" alt="视频封面">
+                <span class="play"></span>
+            </a>
+            <p class="title">网页视频卡片墙制作，图片自适应封面布局，移动端自动换行案例讲解</p>
+            <p class="info">播放量75.3万次 · 弹幕9800条 · 发布于2026-09-15 · HTML+CSS项目实战完整教程</p>
+        </li>
+
+        <li>
+            <a href="#" class="cover">
+                <img src="./img/4.jpg" alt="视频封面">
+                <span class="play"></span>
+            </a>
+            <p class="title">rem单位使用讲解,网页字体自适应大小,响应式网页设计基础教程</p>
+            <p class="info">播放量210.5万次 · 弹幕4.6万条 · 发布于2026-09-10 · 前端基础知识点总结视频课程</p>
+        </li>
+
+        <li>
+            <a href="#" class="cover">
+                <img src="./img/5.jpg" alt="视频封面">
+                <span class="play"></span>
+            </a>
+            <p class="title">ul列表改造flex视频卡片布局,去除默认列表样式,快速制作视频封面墙</p>
+            <p class="info">播放量88.7万次 · 弹幕1.2万条 · 发布于2026-09-05 · 课堂作业示例代码详细讲解</p>
+        </li>
+
+        <li>
+            <a href="#" class="cover">
+                <img src="./img/6.jpg" alt="视频封面">
+                <span class="play"></span>
+            </a>
+            <p class="title">图片宽度100%自适应父容器,解决视频封面底部留白问题,CCSS小技巧合集</p>
+            <p class="info">播放量156.8万次 · 弹幕2.9万条 · 发布于2026-08-30 · CSS实用技巧视频教程合集分享</p>
+        </li>
+    </ul>
+
+</body>
+</html>
+

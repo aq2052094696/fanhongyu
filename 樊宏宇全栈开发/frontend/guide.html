@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<!-- 姓名：樊宏宇 | 学号：24001010618 | 时间：2026-11-19 | 大模型：Tencent Hunyuan Hy -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fanhy · 全栈项目开发步骤（典藏版）</title>
+<link rel="stylesheet" href="css/Fanhy_theme.css">
+<style>
+  .Fanhy_hero-banner {
+    position: relative;
+    overflow: hidden;
+    padding: 44px 46px 40px;
+    border-radius: 26px;
+    background: linear-gradient(125deg, rgba(27,47,107,.7), rgba(61,39,120,.6) 45%, rgba(29,78,216,.55));
+    border: 1px solid var(--Fanhy-glass-line);
+    backdrop-filter: blur(18px) saturate(150%);
+    -webkit-backdrop-filter: blur(18px) saturate(150%);
+    box-shadow: 0 22px 55px rgba(0,0,0,.4), inset 0 1px 0 rgba(255,255,255,.14);
+  }
+  .Fanhy_hero-banner::after {
+    content: "";
+    position: absolute;
+    right: -60px; top: -90px;
+    width: 340px; height: 340px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(77,227,255,.25), transparent 68%);
+    pointer-events: none;
+  }
+  .Fanhy_edition-tag {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    background: rgba(247,212,136,.12);
+    border: 1px solid rgba(247,212,136,.35);
+    color: var(--Fanhy-gold);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  .Fanhy_hero-banner h1 {
+    margin: 18px 0 12px;
+    font-size: clamp(28px, 5vw, 44px);
+    line-height: 1.25;
+    font-weight: 900;
+  }
+  .Fanhy_hero-banner p { margin: 0; font-size: 16px; color: #cfd9ff; line-height: 1.8; max-width: 760px; }
+  .Fanhy_flow { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 9px; }
+  .Fanhy_flow-item {
+    padding: 7px 15px; border-radius: 999px;
+    background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.16);
+    color: #eaf1ff; font-size: 14px; font-weight: 600; white-space: nowrap;
+  }
+  .Fanhy_flow-arrow { color: var(--Fanhy-cyan); font-size: 17px; font-weight: 700; }
+
+  .Fanhy_meta-bar {
+    margin-top: 22px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+  }
+  .Fanhy_meta-item { padding: 18px 20px; }
+  .Fanhy_meta-item .Fanhy_k { display: block; font-size: 12px; letter-spacing: 1px; color: var(--Fanhy-muted); margin-bottom: 6px; }
+  .Fanhy_meta-item .Fanhy_v { font-size: 16px; font-weight: 700; color: var(--Fanhy-ink); }
+
+  .Fanhy_sec-label {
+    margin: 40px 4px 18px;
+    display: flex; align-items: center; gap: 12px;
+    color: var(--Fanhy-gold); font-size: 19px; font-weight: 800;
+  }
+  .Fanhy_sec-label::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, rgba(247,212,136,.4), transparent); }
+
+  .Fanhy_step-card {
+    position: relative;
+    margin-top: 20px;
+    padding: 28px 34px 30px 40px;
+    overflow: hidden;
+  }
+  .Fanhy_step-card::before {
+    content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px;
+    background: linear-gradient(180deg, var(--Fanhy-cyan), var(--Fanhy-violet));
+  }
+  .Fanhy_step-card.Fanhy_key::before { background: linear-gradient(180deg, #4ade80, #22c55e); }
+  .Fanhy_step-card.Fanhy_db::before { background: linear-gradient(180deg, var(--Fanhy-gold), #f59e0b); }
+
+  .Fanhy_step-head { display: flex; align-items: flex-start; gap: 18px; }
+  .Fanhy_step-num {
+    flex: 0 0 56px; width: 56px; height: 56px; border-radius: 15px;
+    background: linear-gradient(145deg, rgba(77,227,255,.25), rgba(155,107,255,.25));
+    border: 1px solid rgba(255,255,255,.15);
+    color: var(--Fanhy-cyan);
+    font-size: 26px; font-weight: 900;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .Fanhy_step-card.Fanhy_key .Fanhy_step-num { color: #4ade80; background: linear-gradient(145deg, rgba(74,222,128,.22), rgba(34,197,94,.18)); }
+  .Fanhy_step-card.Fanhy_db .Fanhy_step-num { color: var(--Fanhy-gold); background: linear-gradient(145deg, rgba(247,212,136,.22), rgba(245,158,11,.16)); }
+  .Fanhy_step-head h2 { margin: 2px 0 4px; font-size: 25px; font-weight: 800; }
+  .Fanhy_step-sub { margin: 0; font-size: 14.5px; color: var(--Fanhy-muted); }
+
+  .Fanhy_badge { display: inline-block; margin-left: 10px; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 700; vertical-align: middle; }
+  .Fanhy_badge.Fanhy_keybg { background: rgba(74,222,128,.15); color: #4ade80; }
+  .Fanhy_badge.Fanhy_optbg { background: rgba(247,212,136,.14); color: var(--Fanhy-gold); }
+
+  .Fanhy_checklist { list-style: none; margin: 22px 0 0; padding: 0 0 0 2px; display: grid; gap: 13px; }
+  .Fanhy_checklist li { display: flex; align-items: flex-start; gap: 12px; font-size: 16px; color: var(--Fanhy-ink-soft); line-height: 1.7; }
+  .Fanhy_checklist li::before {
+    content: "✓"; flex: 0 0 24px; width: 24px; height: 24px; margin-top: 2px; border-radius: 50%;
+    background: rgba(74,222,128,.16); color: #4ade80; font-size: 14px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .Fanhy_checklist li.Fanhy_n::before { content: "·"; background: rgba(77,227,255,.14); color: var(--Fanhy-cyan); font-size: 20px; line-height: 1; }
+  .Fanhy_checklist em { color: var(--Fanhy-pink); font-style: normal; font-weight: 700; }
+  .Fanhy_checklist strong { color: var(--Fanhy-ink); }
+
+  .Fanhy_subnote {
+    margin: 16px 0 0 36px; padding: 10px 16px;
+    border-left: 3px solid var(--Fanhy-cyan);
+    background: rgba(77,227,255,.06); border-radius: 0 8px 8px 0;
+    font-size: 14px; color: var(--Fanhy-ink-soft);
+  }
+  code.Fanhy_inline { padding: 2px 7px; border-radius: 6px; background: rgba(155,107,255,.16); color: #c9b0ff; font-family: Consolas, "Courier New", monospace; font-size: 13.5px; }
+
+  .Fanhy_code-block { margin-top: 20px; border-radius: 13px; overflow: hidden; background: rgba(3,6,18,.72); border: 1px solid var(--Fanhy-glass-line); }
+  .Fanhy_code-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 16px; background: rgba(255,255,255,.05); border-bottom: 1px solid rgba(255,255,255,.08); }
+  .Fanhy_code-title { color: #4ade80; font-size: 13.5px; font-weight: 700; }
+  .Fanhy_copy-btn {
+    flex: 0 0 auto; padding: 5px 14px; border: 1px solid rgba(255,255,255,.22); border-radius: 999px;
+    background: rgba(255,255,255,.08); color: #dbe4ff; font-size: 12.5px; cursor: pointer;
+    transition: background .2s, color .2s, transform .1s;
+  }
+  .Fanhy_copy-btn:hover { background: rgba(255,255,255,.16); }
+  .Fanhy_copy-btn:active { transform: scale(.96); }
+  .Fanhy_copy-btn.Fanhy_copied { background: #22c55e; border-color: #22c55e; color: #fff; }
+  .Fanhy_code-block pre { margin: 0; padding: 18px 20px; font-family: Consolas, "Courier New", monospace; font-size: 13.5px; line-height: 1.75; white-space: pre-wrap; word-break: break-word; color: #e8f0ff; }
+
+  .Fanhy_rules-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 18px; }
+  .Fanhy_rule-card { padding: 22px 24px; border-top: 3px solid var(--Fanhy-violet); }
+  .Fanhy_rule-card h3 { margin: 0 0 12px; font-size: 17px; color: var(--Fanhy-cyan); }
+  .Fanhy_rule-card ul { margin: 0; padding-left: 20px; }
+  .Fanhy_rule-card li { margin-bottom: 8px; font-size: 14.5px; color: var(--Fanhy-ink-soft); line-height: 1.65; }
+  .Fanhy_rule-card li:last-child { margin-bottom: 0; }
+  .Fanhy_rule-card strong { color: var(--Fanhy-ink); }
+  .Fanhy_rule-card .Fanhy_mono { font-family: Consolas, monospace; color: #c9b0ff; font-size: 13.5px; }
+
+  .Fanhy_tip, .Fanhy_warn { margin-top: 18px; padding: 14px 18px; border-radius: 8px; font-size: 14.5px; }
+  .Fanhy_tip { border-left: 4px solid #4ade80; background: rgba(74,222,128,.08); color: #bbf7d0; }
+  .Fanhy_warn { border-left: 4px solid var(--Fanhy-gold); background: rgba(247,212,136,.08); color: #fde9b5; }
+  .Fanhy_tip code, .Fanhy_warn code { font-family: Consolas, monospace; }
+
+  @media (max-width: 720px) {
+    .Fanhy_hero-banner { padding: 28px 22px; border-radius: 18px; }
+    .Fanhy_step-card { padding: 22px 20px; }
+    .Fanhy_step-head h2 { font-size: 20px; }
+    .Fanhy_step-num { flex-basis: 46px; width: 46px; height: 46px; font-size: 22px; }
+    .Fanhy_subnote { margin-left: 0; }
+  }
+</style>
+</head>
+<body class="Fanhy-body">
+
+<div class="Fanhy-fluid" aria-hidden="true">
+  <div class="Fanhy-blob Fanhy-blob-a"></div>
+  <div class="Fanhy-blob Fanhy-blob-b"></div>
+  <div class="Fanhy-blob Fanhy-blob-c"></div>
+</div>
+<canvas id="Fanhy_particleCanvas" class="Fanhy_particles" aria-hidden="true"></canvas>
+
+<div class="Fanhy_wrap">
+
+  <!-- 顶部条 -->
+  <header class="Fanhy_topbar">
+    <div class="Fanhy_topbar-brand">
+      <span class="Fanhy_logo-dot"></span>
+      <span class="Fanhy_gradient-text">FANHY · STUDIO</span>
+    </div>
+    <a href="index.html" class="Fanhy_btn">← 返回展厅</a>
+  </header>
+
+  <!-- 顶部横幅 -->
+  <header class="Fanhy_hero-banner Fanhy_reveal">
+    <span class="Fanhy_edition-tag">典藏特效版 · COLLECTOR EDITION</span>
+    <h1><span class="Fanhy_gradient-text">基于 Vibe Coding 的</span><br>全栈项目开发详细步骤</h1>
+    <p>从环境安装到数据库、新闻列表、图文列表，共 7 个阶段。按步骤操作，把提示词交给 AI，逐步搭出一个完整的前后端项目。</p>
+    <div class="Fanhy_flow">
+      <span class="Fanhy_flow-item">环境准备</span><span class="Fanhy_flow-arrow">→</span>
+      <span class="Fanhy_flow-item">建项目 + AGENTS.md</span><span class="Fanhy_flow-arrow">→</span>
+      <span class="Fanhy_flow-item">初始化项目</span><span class="Fanhy_flow-arrow">→</span>
+      <span class="Fanhy_flow-item">运行查看</span><span class="Fanhy_flow-arrow">→</span>
+      <span class="Fanhy_flow-item">测试数据库</span><span class="Fanhy_flow-arrow">→</span>
+      <span class="Fanhy_flow-item">科技新闻列表</span><span class="Fanhy_flow-arrow">→</span>
+      <span class="Fanhy_flow-item">图文列表</span>
+    </div>
+  </header>
+
+  <!-- 概览 -->
+  <div class="Fanhy_meta-bar">
+    <div class="Fanhy_meta-item Fanhy_glass Fanhy_reveal"><span class="Fanhy_k">开发模式</span><span class="Fanhy_v">Vibe Coding（提示词驱动）</span></div>
+    <div class="Fanhy_meta-item Fanhy_glass Fanhy_reveal"><span class="Fanhy_k">技术栈</span><span class="Fanhy_v">原生前端 + Node.js/Express + MySQL</span></div>
+    <div class="Fanhy_meta-item Fanhy_glass Fanhy_reveal"><span class="Fanhy_k">固定约定</span><span class="Fanhy_v">端口 8618 · 接口前缀 /api/ · 前缀 Fanhy_</span></div>
+  </div>
+
+  <div class="Fanhy_sec-label">开发流程 · 按顺序完成以下 7 个阶段</div>
+
+  <!-- 阶段 0 -->
+  <section class="Fanhy_step-card Fanhy_glass Fanhy_reveal">
+    <div class="Fanhy_step-head">
+      <div class="Fanhy_step-num">0</div>
+      <div><h2>环境准备</h2><p class="Fanhy_step-sub">安装 Node.js 24 以上版本，尽量安装 cnpm 加速依赖安装</p></div>
+    </div>
+    <ul class="Fanhy_checklist">
+      <li>到 Node.js 官网下载 <strong>24 及以上版本</strong>安装包，一路默认完成安装。</li>
+      <li>打开命令行验证：<code class="Fanhy_inline">node -v</code>，确认版本号不低于 24。</li>
+      <li>安装 cnpm 镜像工具：<code class="Fanhy_inline">npm i -g cnpm</code>，之后安装依赖优先用它（失败或超时再改用 npm）。</li>
+      <li>准备好代码编辑器（如 Trae / VS Code），并确认 Git 可用。</li>
+    </ul>
+    <div class="Fanhy_subnote">本阶段只做一次，后面所有项目都可以复用这套环境。</div>
+  </section>
+
+  <!-- 阶段 1 -->
+  <section class="Fanhy_step-card Fanhy_key Fanhy_glass Fanhy_reveal">
+    <div class="Fanhy_step-head">
+      <div class="Fanhy_step-num">1</div>
+      <div><h2>创建项目文件夹，设立规则 AGENTS.md <span class="Fanhy_badge Fanhy_keybg">关键</span></h2><p class="Fanhy_step-sub">先定规矩，再让 AI 干活；AGENTS.md 是整个项目的"宪法"</p></div>
+    </div>
+    <ul class="Fanhy_checklist">
+      <li>新建一个项目文件夹（建议英文命名，避免中文路径），用编辑器打开。</li>
+      <li>在<strong>根目录</strong>创建 <code class="Fanhy_inline">AGENTS.md</code>，把下方的"全栈开发提示词"完整写入。</li>
+      <li>按自己的情况修改给定提示词：把<strong>姓名、学号</strong>改为本人信息（樊宏宇 / 24001010618），也可自行补充要求。</li>
+      <li>以后每次向 AI 发出开发指令，AI 都会依据这个文件里的规则生成代码。</li>
+    </ul>
+    <div class="Fanhy_code-block">
+      <div class="Fanhy_code-head"><span class="Fanhy_code-title">AGENTS.md · 全栈开发提示词（点击右侧复制）</span><button class="Fanhy_copy-btn" type="button">复制</button></div>
+      <pre>在当前项目根目录创建 AGENTS.md，写入以下规则。
+
+## 项目结构与技术栈
+- 前端：frontend/ 目录
+  - 原生 HTML、CSS、JavaScript，禁止使用任何第三方库、框架、CDN 链接
+  - 目录结构：frontend/ 下建 css/、js/、fonts/、images/ 子目录；
+    fonts/ 存放 iconfont 图标文件（如果有）
+- 后端：backend/ 目录，Node.js + Express，RESTful+MVC 风格，
+  所有接口以 /api/ 为前缀，端口固定为 8618，
+  并以 express.static 托管 frontend/ 目录
+  后端支持所有跨域访问。
+- 后端依赖安装：优先 cnpm i 包名；失败或超时则使用 npm i 包名
+- 数据库：MySQL （用户名 root、密码：123456）：
+- 数据库凭据写入 backend/.env（变量名：DB_USER、DB_PASSWORD、
+  DB_HOST、DB_NAME），不得出现在代码或 AGENTS.md 中；
+  .env 同时加入 .gitignore
+- 根据后端的要求自行建立和修改数据库表，每张表建立后，插入至少 8 条有真实业务意义的测试数据
+
+## 命名与注释
+- CSS 类名、JS 变量名、JS 函数名、数据库表名（及字段相关命名）
+  一律以 Fanhy_ 开头
+- 每个文件头部包含注释块：
+  姓名：樊宏宇 | 学号：24001010618 | 时间：yyyy-mm-dd | 大模型：{本次使用的大模型名称}
+
+## 记录文件（一律追加写入，禁止覆盖已有内容）
+- Fanhy_prompt.md（项目根目录）：每次向 AI 发出开发指令后，
+  追加记录：时间 | 提示词全文 | 大模型名称
+- backend/Fanhy_interface.md：每次创建或修改接口后，追加：
+  接口路径 | HTTP 方法 | 请求参数（含示例）|
+  响应格式（含 JSON 示例）| 修改时间
+- backend/Fanhy_database.md：每次建表、改表或插入数据后，
+  按执行顺序追加对应 SQL 语句（含测试数据的 INSERT），
+  要求仅凭此文件即可在新机器上完整重建数据库
+- 统一 JSON 响应格式：{ "code": 0, "msg": "提示信息", "data": {...} }，
+  code=0 表示成功，非 0 表示失败
+
+## 前端约定
+- 服务器返回的数据和错误信息输出到浏览器控制台（console.log / console.error）；
+- 新建 HTML 页面后，在 frontend/index.html 中追加超链接入口；
+  文件名包含 detail 的页面除外</pre>
+    </div>
+    <div class="Fanhy_tip">提示：规则全文也整理在下方"核心规则解读"一栏，便于对照理解每一条的作用。</div>
+  </section>
+
+  <!-- 阶段 2 -->
+  <section class="Fanhy_step-card Fanhy_key Fanhy_glass Fanhy_reveal">
+    <div class="Fanhy_step-head">
+      <div class="Fanhy_step-num">2</div>
+      <div><h2>初始化项目 <span class="Fanhy_badge Fanhy_keybg">关键</span></h2><p class="Fanhy_step-sub">把初始化提示词交给 AI，自动完成建库、建目录、装依赖、做首页</p></div>
+    </div>
+    <ul class="Fanhy_checklist">
+      <li>把下方"初始化提示词"整段发给 AI 执行，等待它自动完成初始化。</li>
+      <li>检查是否已执行 <code class="Fanhy_inline">git init</code>，生成 <code class="Fanhy_inline">.gitignore</code>（排除 <strong>node_modules、.env</strong>）并完成<strong>首次提交</strong>。</li>
+      <li>检查是否已按 AGENTS.md 建好 <code class="Fanhy_inline">frontend/</code>、<code class="Fanhy_inline">backend/</code> 前后端目录骨架，并安装好依赖。</li>
+      <li>检查前端首页 <code class="Fanhy_inline">index.html</code>：应包含<strong>姓名、学号、项目名称、项目类别</strong>，以及所有已完成 HTML 页面的超链接；带 <strong>canvas 背景动画</strong>，主体为页面导航，整体美观。</li>
+      <li>检查根目录是否已生成 <code class="Fanhy_inline">readme.md</code>，内容包括<strong>学号、姓名</strong>。</li>
+    </ul>
+    <div class="Fanhy_code-block">
+      <div class="Fanhy_code-head"><span class="Fanhy_code-title">初始化提示词（点击右侧复制）</span><button class="Fanhy_copy-btn" type="button">复制</button></div>
+      <pre>请初始化本项目：
+1、 git init + .gitignore（排除 node_modules、.env）+ 首次提交
+2、按 AGENTS.md 规则创建前后端目录骨架、安装依赖、
+3、创建前端首页index.html，包括姓名**、学号**、项目名称、项目类别（自选、模仿），所有完成的html页面的超链接。有canvas背景动画。主体是页面链接导航。页面美观。
+4、创建readme.md，在根目录下，包括学号、姓名。</pre>
+    </div>
+    <div class="Fanhy_subnote">第 3 条中的姓名、学号请换成自己的真实信息（如 "姓名：樊宏宇、学号：24001010618"）。</div>
+  </section>
+
+  <!-- 阶段 3 -->
+  <section class="Fanhy_step-card Fanhy_glass Fanhy_reveal">
+    <div class="Fanhy_step-head">
+      <div class="Fanhy_step-num">3</div>
+      <div><h2>运行和查看项目</h2><p class="Fanhy_step-sub">创建后台运行的 bat 文件，一键启动并打开首页</p></div>
+    </div>
+    <ul class="Fanhy_checklist">
+      <li>在<strong>根目录</strong>新建一个 <code class="Fanhy_inline">.bat</code> 批处理文件，用于启动后端服务并保持窗口不关闭。</li>
+      <li>双击该 bat 文件运行；后端按规则以 <code class="Fanhy_inline">express.static</code> 托管 frontend 目录，并监听 <strong>8618</strong> 端口。</li>
+      <li>浏览器访问 <code class="Fanhy_inline">http://localhost:8618</code>，查看首页效果：canvas 动画、导航链接、姓名学号等信息是否正常。</li>
+      <li>后续每新增一个页面，都要回到首页确认链接入口已追加。</li>
+    </ul>
+    <div class="Fanhy_code-block">
+      <div class="Fanhy_code-head"><span class="Fanhy_code-title">bat 文件示例（入口文件名按后端实际修改）</span><button class="Fanhy_copy-btn" type="button">复制</button></div>
+      <pre>@echo off
+cd /d %~dp0\backend
+node app.js
+pause</pre>
+    </div>
+  </section>
+
+  <!-- 阶段 4 -->
+  <section class="Fanhy_step-card Fanhy_db Fanhy_glass Fanhy_reveal">
+    <div class="Fanhy_step-head">
+      <div class="Fanhy_step-num">4</div>
+      <div><h2>测试数据库连接 <span class="Fanhy_badge Fanhy_optbg">MySQL 需要 / SQLite 可跳过</span></h2><p class="Fanhy_step-sub">创建 database.html，输入用户名密码连接数据库并给出提示</p></div>
+    </div>
+    <ul class="Fanhy_checklist">
+      <li>确认 MySQL 服务已启动，并准备好可连接的用户名与密码（规则中约定 root / 123456）。</li>
+      <li>创建 <code class="Fanhy_inline">database.html</code> 页面：提供<strong>用户名、密码</strong>输入框和"连接数据库"按钮。</li>
+      <li>点击连接后调用后端 <code class="Fanhy_inline">/api/</code> 接口发起测试，<strong>成功和失败都要有明确提示</strong>。</li>
+      <li>默认用户名 <strong>root</strong>、密码 <strong>root</strong>（测试页默认值；实际连接需与 MySQL 或 <code class="Fanhy_inline">backend/.env</code> 中的配置一致）。</li>
+      <li>按"前端约定"，把接口返回的数据与错误信息用 <code class="Fanhy_inline">console.log</code> / <code class="Fanhy_inline">console.error</code> 输出到控制台，方便排错。</li>
+      <li>在 <code class="Fanhy_inline">backend/Fanhy_interface.md</code> 追加该测试接口的记录。</li>
+    </ul>
+    <div class="Fanhy_warn">注意：初始化提示词中数据库测试页默认密码写的是 root，而 AGENTS.md 中 MySQL 密码约定为 123456。请以本机实际密码或 .env 配置为准，两处保持一致即可。</div>
+  </section>
+
+  <!-- 阶段 5 -->
+  <section class="Fanhy_step-card Fanhy_key Fanhy_glass Fanhy_reveal">
+    <div class="Fanhy_step-head">
+      <div class="Fanhy_step-num">5</div>
+      <div><h2>完成科技新闻列表页面 <span class="Fanhy_badge Fanhy_keybg">核心功能</span></h2><p class="Fanhy_step-sub">数据存入数据库表，网页显示后端接口链接和数据内容</p></div>
+    </div>
+    <ul class="Fanhy_checklist">
+      <li>让 AI 根据后端需要建立<strong>科技新闻表</strong>，并插入至少 <strong>8 条</strong>有真实业务意义的测试数据。</li>
+      <li>后端按 <strong>RESTful + MVC</strong> 风格创建新闻接口，统一以 <code class="Fanhy_inline">/api/</code> 开头，返回统一 JSON 格式 <code class="Fanhy_inline">{ code, msg, data }</code>。</li>
+      <li>前端新建新闻列表页面，用 fetch / AJAX 调用接口获取数据在页面中渲染。</li>
+      <li>页面上要<strong>显示后端接口链接</strong>和<strong>接口返回的数据内容</strong>。</li>
+      <li>在 <code class="Fanhy_inline">frontend/index.html</code> 中追加该页面的超链接入口。</li>
+      <li>追加三份记录：<code class="Fanhy_inline">Fanhy_prompt.md</code> 记录本次提示词、<code class="Fanhy_inline">Fanhy_interface.md</code> 记录接口、<code class="Fanhy_inline">Fanhy_database.md</code> 记录建表与 INSERT 的 SQL。</li>
+    </ul>
+    <div class="Fanhy_tip">提示：数据库表字段可参考"标题、摘要、来源、发布时间、图片地址"等，命名一律以 Fanhy_ 开头。</div>
+  </section>
+
+  <!-- 阶段 6 -->
+  <section class="Fanhy_step-card Fanhy_key Fanhy_glass Fanhy_reveal">
+    <div class="Fanhy_step-head">
+      <div class="Fanhy_step-num">6</div>
+      <div><h2>完成图文列表 <span class="Fanhy_badge Fanhy_keybg">核心功能</span></h2><p class="Fanhy_step-sub">新建一张表，图片可用网络图片或自行创建，同样显示接口与数据</p></div>
+    </div>
+    <ul class="Fanhy_checklist">
+      <li>创建<strong>新表</strong>存放图文数据（如标题、图片地址、简介），并插入至少 8 条测试数据。</li>
+      <li>图片可直接使用<strong>网络图片链接</strong>，也可以自己创建后放入 <code class="Fanhy_inline">frontend/images/</code>。</li>
+      <li>后端新增对应 <code class="Fanhy_inline">/api/</code> 接口，前端新建图文列表页面调用接口渲染。</li>
+      <li>页面上同样要<strong>显示后端接口链接和数据内容</strong>。</li>
+      <li>在 <code class="Fanhy_inline">frontend/index.html</code> 追加超链接入口，并追加三份记录文件。</li>
+      <li>最后回到首页整体检查：链接齐全、样式美观、控制台无报错，即可完成验收。</li>
+    </ul>
+  </section>
+
+  <!-- 规则解读 -->
+  <div class="Fanhy_sec-label">核心规则解读 · AGENTS.md 四大部分</div>
+  <div class="Fanhy_rules-grid">
+    <div class="Fanhy_rule-card Fanhy_glass Fanhy_reveal">
+      <h3>① 项目结构与技术栈</h3>
+      <ul>
+        <li>前端放在 <strong>frontend/</strong>，只用<span class="Fanhy_mono">原生 HTML/CSS/JS</span>，<strong>禁止</strong>第三方库、框架、CDN。</li>
+        <li>frontend 下建 <span class="Fanhy_mono">css/ js/ fonts/ images/</span>，字体图标放 fonts。</li>
+        <li>后端放在 <strong>backend/</strong>，<span class="Fanhy_mono">Node.js + Express</span>，RESTful + MVC。</li>
+        <li>接口统一 <span class="Fanhy_mono">/api/</span> 前缀，端口固定 <strong>8618</strong>，静态托管 frontend，并支持跨域。</li>
+        <li>依赖优先 <span class="Fanhy_mono">cnpm i 包名</span>，失败或超时改用 <span class="Fanhy_mono">npm i 包名</span>。</li>
+        <li>MySQL 用户名 root、密码 123456；凭据写入 <span class="Fanhy_mono">backend/.env</span>，不得出现在代码和 AGENTS.md 中，.env 计入 .gitignore。</li>
+        <li>每张表建好后至少插入 <strong>8 条</strong>真实业务意义的测试数据。</li>
+      </ul>
+    </div>
+    <div class="Fanhy_rule-card Fanhy_glass Fanhy_reveal">
+      <h3>② 命名与注释</h3>
+      <ul>
+        <li>CSS 类名、JS 变量名、JS 函数名、数据库表名及字段命名，一律以 <span class="Fanhy_mono">Fanhy_</span> 开头。</li>
+        <li>每个文件头部写注释块：姓名、学号、时间（yyyy-mm-dd）、本次使用的大模型名称。</li>
+        <li>示例：<span class="Fanhy_mono">姓名：樊宏宇 | 学号：24001010618 | 时间：yyyy-mm-dd | 大模型：{名称}</span>。</li>
+      </ul>
+    </div>
+    <div class="Fanhy_rule-card Fanhy_glass Fanhy_reveal">
+      <h3>③ 记录文件（只追加，禁止覆盖）</h3>
+      <ul>
+        <li><strong>Fanhy_prompt.md</strong>（根目录）：每次发指令后追加"时间 | 提示词全文 | 大模型名称"。</li>
+        <li><strong>backend/Fanhy_interface.md</strong>：每次建改接口后追加"路径 | HTTP 方法 | 请求参数（含示例）| 响应格式（含 JSON 示例）| 修改时间"。</li>
+        <li><strong>backend/Fanhy_database.md</strong>：按执行顺序追加建表、改表、插入数据的 SQL，<strong>仅凭此文件即可在新机器重建数据库</strong>。</li>
+        <li>统一 JSON 响应：<span class="Fanhy_mono">{ "code": 0, "msg": "提示信息", "data": {...} }</span>，code=0 成功，非 0 失败。</li>
+      </ul>
+    </div>
+    <div class="Fanhy_rule-card Fanhy_glass Fanhy_reveal">
+      <h3>④ 前端约定</h3>
+      <ul>
+        <li>服务器返回的数据与错误信息输出到浏览器控制台：<span class="Fanhy_mono">console.log</span> / <span class="Fanhy_mono">console.error</span>。</li>
+        <li>新建 HTML 页面后，在 <span class="Fanhy_mono">frontend/index.html</span> 中追加超链接入口。</li>
+        <li>文件名包含 <span class="Fanhy_mono">detail</span> 的页面除外。</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="Fanhy_tip">建议：把本页的"初始化提示词"和"AGENTS.md 全栈开发提示词"复制到 AI 工具中直接执行，效率最高；每完成一个阶段，对照清单逐项检查。</div>
+
+  <footer class="Fanhy_footer">基于 Vibe Coding 的全栈项目开发步骤 · 典藏特效版 · 樊宏宇 24001010618</footer>
+</div>
+
+<script src="js/Fanhy_particles.js"></script>
+<script>
+  /* 姓名：樊宏宇 | 学号：24001010618 | 时间：2026-11-19 | 大模型：Tencent Hunyuan Hy */
+  (function () {
+    // 复制按钮
+    document.querySelectorAll('.Fanhy_copy-btn').forEach(function (Fanhy_btn) {
+      Fanhy_btn.addEventListener('click', function () {
+        var Fanhy_pre = Fanhy_btn.closest('.Fanhy_code-block').querySelector('pre');
+        var Fanhy_text = Fanhy_pre.textContent;
+        function Fanhy_done() {
+          var Fanhy_old = Fanhy_btn.textContent;
+          Fanhy_btn.textContent = '已复制';
+          Fanhy_btn.classList.add('Fanhy_copied');
+          setTimeout(function () { Fanhy_btn.textContent = Fanhy_old; Fanhy_btn.classList.remove('Fanhy_copied'); }, 1600);
+        }
+        function Fanhy_fallback() {
+          var Fanhy_ta = document.createElement('textarea');
+          Fanhy_ta.value = Fanhy_text;
+          Fanhy_ta.style.position = 'fixed';
+          Fanhy_ta.style.opacity = '0';
+          document.body.appendChild(Fanhy_ta);
+          Fanhy_ta.select();
+          try { document.execCommand('copy'); Fanhy_done(); }
+          catch (Fanhy_e) { alert('复制失败，请手动选择文本复制'); }
+          document.body.removeChild(Fanhy_ta);
+        }
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(Fanhy_text).then(Fanhy_done).catch(Fanhy_fallback);
+        } else { Fanhy_fallback(); }
+      });
+    });
+
+    // 滚动淡入
+    var Fanhy_io = new IntersectionObserver(function (Fanhy_entries) {
+      Fanhy_entries.forEach(function (Fanhy_e) {
+        if (Fanhy_e.isIntersecting) { Fanhy_e.target.classList.add('Fanhy_visible'); Fanhy_io.unobserve(Fanhy_e.target); }
+      });
+    }, { threshold: 0.06 });
+    document.querySelectorAll('.Fanhy_reveal').forEach(function (Fanhy_el) { Fanhy_io.observe(Fanhy_el); });
+  })();
+</script>
+</body>
+</html>

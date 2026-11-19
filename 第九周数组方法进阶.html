@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>fhy 10.29 数组方法进阶</title>
+</head>
+<body>
+    <script>
+        var arr=[35,67,88,65,76,33,78]
+        const n = arr.every(function(v,i){
+            return v<=100
+        })
+        console.log(n)
+        //some
+        const n1 = arr.some(function(v,i){
+            return v>60
+        })
+        console.log(n1)
+        //map 映射数组
+        const n2 =arr.map((v,i)=>{
+            if (v>=95){
+                v=100
+            }
+            else{
+                v+=5
+            }
+            return v;
+
+        })
+        console.log(n2)
+        //reduce累加数组
+        const n3 = arr.reduce((a,b)=>{
+            return a+b
+        })
+        console.log(n3)
+    </script>
+</body>
+</html>

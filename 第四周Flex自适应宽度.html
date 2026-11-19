@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 Flex自适应宽度</title>
+    <link rel="stylesheet" href="./css/pub.css">
+    <style>
+        .list {
+            display: flex; /* 弹性布局 */
+            flex-wrap: wrap; /* 换行 */
+        }
+        .list li {
+            width: 25%; /* 每个列表项宽度为父元素宽度的255% */
+            margin-left: 1px;
+            flex-grow: 1; /* 弹性伸缩，占据剩余空间 */
+        }
+
+        .list li img {
+            width: 100%; /* 图片宽度为列表项宽度 */
+        }
+        .list li p {
+            overflow: hidden; /* 文字溢出隐藏 */
+            text-overflow: ellipsis; /* 文字溢出隐藏显示省略号 */
+            white-space: nowrap; /* 文字不换行 */
+            font-size: 0.4rem;  /* 相对html字体大小的0.4倍 */
+            line-height: .45rem; /* 文字行高 */
+        }
+
+    </style>
+    <!-- 扩展：尝试做一个自适应的“视频卡片墙”每个图片下方有标题+其他。文字溢出省略 -->
+</head>
+<body>
+    <ul class="list">
+        <li>
+            <a href="#">
+                <img src="./img/1.jpg">
+            </a>
+            <p>张大叔的文字描述，这里的文字溢出隐藏</p>
+        </li>
+       <li>
+            <a href="#">
+                <img src="./img/2.jpg">
+            </a>
+            <p>张大叔的文字描述，这里的文字溢出隐藏</p>
+        </li>
+        <li>
+            <a href="#">
+                <img src="./img/3.jpg">
+            </a>
+            <p>张大叔的文字描述，这里的文字溢出隐藏</p>
+        </li>
+        <li>
+            <a href="#">
+                <img src="./img/4.jpg">
+            </a>
+            <p>张大叔的文字描述，这里的文字溢出隐藏</p>
+        </li>
+        <li>
+            <a href="#">
+                <img src="./img/5.jpg">
+            </a>
+            <p>张大叔的文字描述，这里的文字溢出隐藏</p>
+        </li>
+        <li>
+            <a href="#">
+                <img src="./img/6.jpg">
+            </a>
+            <p>张大叔的文字描述，这里的文字溢出隐藏</p>
+        </li>
+    </ul>
+</body>
+</html>

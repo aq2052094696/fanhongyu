@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>618 樊宏宇 滚动事件</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        #head {
+            width: 100%;
+            height: 100px;
+            background-color: #0d56ae;
+            color: #6edc06;
+            line-height: 100px;
+            text-align: center;
+            font-size: 30px;
+            color: #6edc06;
+        }
+        #fixed {
+            background-color: #6edc06;
+            color: #0d56ae;
+            line-height: 100px;
+            text-align: center;
+            font-size: 30px;
+            color: #0d56ae;
+            position: sticky; /* 粘性定位 */
+            top: 0;     /* 固定在顶部 */
+
+        }
+        #main {
+            width: 100%;
+            height: 2000px;
+            background-color: #cd36eb;
+            color: #6edc06;
+            line-height: 2000px;
+            text-align: center;
+            font-size: 30px;
+            color: #6edc06;
+        }
+        #ad {
+            width: 100%;
+            height: 100px;
+            background-color: #f31ad9;
+            color: #0d56ae;
+            line-height: 100px;
+            text-align: center;
+            font-size: 30px;
+            color: #0d56ae;
+        }
+    </style>
+</head>
+<body>
+    <div id="head">默认的头部</div>
+    <div id="fixed">滚动固定盒子</div>
+    <div id="main">主要内容</div>
+    <div id="ad">默认隐藏</div>
+    <script>
+        Window.onscroll = () => {
+            var st=document.documentElement.scrollTop || document.body.scrollTop;
+            if(st>500){
+                ad.style.display = 'block';
+            }
+            else{
+                ad.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>

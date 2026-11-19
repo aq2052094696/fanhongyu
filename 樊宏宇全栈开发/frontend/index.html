@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<!-- 姓名：樊宏宇 | 学号：24001010618 | 时间：2026-11-19 | 大模型：Tencent Hunyuan Hy -->
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fanhy · 全栈项目典藏展厅</title>
+<link rel="stylesheet" href="css/Fanhy_theme.css">
+<style>
+  /* ===== 首页专属典藏样式 ===== */
+  .Fanhy_hero {
+    position: relative;
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px 0 40px;
+  }
+
+  .Fanhy_hero-inner { max-width: 920px; }
+
+  .Fanhy_badge-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 26px;
+  }
+  .Fanhy_edition {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 18px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--Fanhy-gold);
+    background: linear-gradient(100deg, rgba(247,212,136,.14), rgba(247,212,136,.03));
+    border: 1px solid rgba(247,212,136,.35);
+    box-shadow: inset 0 0 20px rgba(247,212,136,.08);
+  }
+  .Fanhy_edition::before {
+    content: "✦";
+    font-size: 12px;
+  }
+  .Fanhy_live {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12.5px;
+    color: var(--Fanhy-ink-soft);
+  }
+  .Fanhy_live-dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: #4ade80;
+    box-shadow: 0 0 12px #4ade80;
+    animation: Fanhy_pulse 1.8s ease-in-out infinite;
+  }
+  @keyframes Fanhy_pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:.35;transform:scale(.7);} }
+
+  .Fanhy_hero-title {
+    margin: 0 0 22px;
+    font-size: clamp(44px, 8.5vw, 96px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -1px;
+  }
+  .Fanhy_hero-title .Fanhy_line { display: block; }
+  .Fanhy_hero-title .Fanhy_small {
+    font-size: clamp(20px, 3.4vw, 38px);
+    font-weight: 700;
+    color: var(--Fanhy-ink-soft);
+    letter-spacing: 2px;
+  }
+
+  .Fanhy_hero-desc {
+    font-size: clamp(15px, 2vw, 19px);
+    color: var(--Fanhy-ink-soft);
+    line-height: 1.9;
+    max-width: 660px;
+    margin: 0 0 34px;
+  }
+  .Fanhy_hero-desc strong { color: var(--Fanhy-cyan); font-weight: 700; }
+
+  /* 身份卡片：姓名 / 学号 / 项目类别 */
+  .Fanhy_identity {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 14px;
+    margin-bottom: 46px;
+    max-width: 760px;
+  }
+  .Fanhy_id-card {
+    padding: 18px 22px;
+    position: relative;
+    overflow: hidden;
+    transition: transform .35s, box-shadow .35s;
+  }
+  .Fanhy_id-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg, var(--Fanhy-cyan), var(--Fanhy-violet), var(--Fanhy-pink));
+  }
+  .Fanhy_id-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 50px rgba(0,0,0,.5), 0 0 30px rgba(77,227,255,.15);
+  }
+  .Fanhy_id-k {
+    display: block;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--Fanhy-muted);
+    margin-bottom: 8px;
+  }
+  .Fanhy_id-v {
+    font-size: 20px;
+    font-weight: 800;
+    color: var(--Fanhy-ink);
+  }
+  .Fanhy_id-v.Fanhy_num { font-family: Consolas, monospace; letter-spacing: 1px; color: var(--Fanhy-gold); }
+
+  /* 板块标题 */
+  .Fanhy_sec-head {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 26px;
+  }
+  .Fanhy_sec-head h2 {
+    margin: 0;
+    font-size: clamp(22px, 3vw, 30px);
+    font-weight: 800;
+  }
+  .Fanhy_sec-head .Fanhy_line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--Fanhy-glass-line), transparent);
+  }
+  .Fanhy_sec-index {
+    font-family: Consolas, monospace;
+    font-size: 13px;
+    color: var(--Fanhy-cyan);
+    letter-spacing: 2px;
+  }
+
+  /* 导航卡片网格 */
+  .Fanhy_nav-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    padding-bottom: 20px;
+  }
+  .Fanhy_nav-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 28px 28px 26px;
+    text-decoration: none;
+    color: inherit;
+    overflow: hidden;
+    transition: transform .4s cubic-bezier(.2,.7,.3,1), box-shadow .4s, border-color .4s;
+  }
+  .Fanhy_nav-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--Fanhy_mx, 50%) var(--Fanhy_my, 50%), rgba(77,227,255,.16), transparent 55%);
+    opacity: 0;
+    transition: opacity .35s;
+    pointer-events: none;
+  }
+  .Fanhy_nav-card:hover::after { opacity: 1; }
+  .Fanhy_nav-card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(77,227,255,.5);
+    box-shadow: 0 30px 60px rgba(0,0,0,.55), 0 0 40px rgba(77,227,255,.18);
+  }
+  .Fanhy_nav-icon {
+    width: 52px; height: 52px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    background: linear-gradient(135deg, rgba(77,227,255,.16), rgba(155,107,255,.16));
+    border: 1px solid rgba(255,255,255,.12);
+  }
+  .Fanhy_nav-num {
+    position: absolute;
+    top: 20px; right: 24px;
+    font-family: Consolas, monospace;
+    font-size: 40px;
+    font-weight: 800;
+    color: rgba(255,255,255,.05);
+  }
+  .Fanhy_nav-card h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 800;
+  }
+  .Fanhy_nav-card p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--Fanhy-ink-soft);
+    line-height: 1.7;
+  }
+  .Fanhy_nav-go {
+    margin-top: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--Fanhy-cyan);
+  }
+  .Fanhy_nav-go span { transition: transform .3s; }
+  .Fanhy_nav-card:hover .Fanhy_nav-go span { transform: translateX(6px); }
+
+  .Fanhy_hero-scroll {
+    margin-top: 40px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--Fanhy-muted);
+  }
+  .Fanhy_scroll-line {
+    width: 1px; height: 38px;
+    background: linear-gradient(180deg, var(--Fanhy-cyan), transparent);
+    animation: Fanhy_scrollDrop 2s ease-in-out infinite;
+  }
+  @keyframes Fanhy_scrollDrop { 0%,100%{opacity:.3;transform:scaleY(.6);} 50%{opacity:1;transform:scaleY(1);} }
+</style>
+</head>
+<body class="Fanhy-body">
+
+<!-- 流体渐变背景 -->
+<div class="Fanhy-fluid" aria-hidden="true">
+  <div class="Fanhy-blob Fanhy-blob-a"></div>
+  <div class="Fanhy-blob Fanhy-blob-b"></div>
+  <div class="Fanhy-blob Fanhy-blob-c"></div>
+</div>
+<!-- 星空粒子画布 -->
+<canvas id="Fanhy_particleCanvas" class="Fanhy_particles" aria-hidden="true"></canvas>
+
+<div class="Fanhy_wrap">
+
+  <!-- 顶部条 -->
+  <header class="Fanhy_topbar">
+    <div class="Fanhy_topbar-brand">
+      <span class="Fanhy_logo-dot"></span>
+      <span class="Fanhy_gradient-text">FANHY · STUDIO</span>
+    </div>
+    <div class="Fanhy_badge-row" style="margin:0;">
+      <span class="Fanhy_live"><span class="Fanhy_live-dot"></span> 系统运行中 · 端口 8618</span>
+    </div>
+  </header>
+
+  <!-- 主视觉 -->
+  <section class="Fanhy_hero">
+    <div class="Fanhy_hero-inner">
+      <div class="Fanhy_badge-row Fanhy_reveal">
+        <span class="Fanhy_edition">典藏特效版 · COLLECTOR EDITION</span>
+        <span class="Fanhy_live">基于 Vibe Coding 的全栈实战项目</span>
+      </div>
+
+      <h1 class="Fanhy_hero-title Fanhy_reveal">
+        <span class="Fanhy_line Fanhy_gradient-text">樊宏宇的全栈</span>
+        <span class="Fanhy_line">典藏级<span class="Fanhy_gradient-text">展厅</span></span>
+        <span class="Fanhy_line Fanhy_small">原生前端 · Express · MySQL</span>
+      </h1>
+
+      <p class="Fanhy_hero-desc Fanhy_reveal">
+        以 <strong>流体渐变</strong> 与 <strong>玻璃拟态</strong> 为肌理，以 <strong>星空粒子</strong> 与 <strong>交互光轨</strong> 为灵魂。
+        这是一个从环境搭建、数据库连接到新闻列表、图文列表逐步构建的完整前后端项目。
+      </p>
+
+      <!-- 身份信息卡 -->
+      <div class="Fanhy_identity Fanhy_reveal">
+        <div class="Fanhy_id-card Fanhy_glass">
+          <span class="Fanhy_id-k">姓名 / NAME</span>
+          <span class="Fanhy_id-v">樊宏宇</span>
+        </div>
+        <div class="Fanhy_id-card Fanhy_glass">
+          <span class="Fanhy_id-k">学号 / STUDENT ID</span>
+          <span class="Fanhy_id-v Fanhy_num">24001010618</span>
+        </div>
+        <div class="Fanhy_id-card Fanhy_glass">
+          <span class="Fanhy_id-k">项目名称 / PROJECT</span>
+          <span class="Fanhy_id-v">全栈典藏展厅</span>
+        </div>
+        <div class="Fanhy_id-card Fanhy_glass">
+          <span class="Fanhy_id-k">项目类别 / TYPE</span>
+          <span class="Fanhy_id-v">自选 · 高级特效</span>
+        </div>
+      </div>
+
+      <div class="Fanhy_hero-scroll">
+        <span class="Fanhy_scroll-line"></span>
+        <span>向下探索全部页面</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 页面导航 -->
+  <section id="Fanhy_nav" style="padding-bottom:40px;">
+    <div class="Fanhy_sec-head Fanhy_reveal">
+      <span class="Fanhy_sec-index">02 / NAVIGATION</span>
+      <h2>页面导航</h2>
+      <span class="Fanhy_line"></span>
+    </div>
+
+    <div class="Fanhy_nav-grid">
+      <a href="database.html" class="Fanhy_nav-card Fanhy_glass Fanhy_reveal Fanhy_card">
+        <span class="Fanhy_nav-num">01</span>
+        <div class="Fanhy_nav-icon">🗄️</div>
+        <h3>数据库连接测试</h3>
+        <p>输入用户名与密码，实时测试 MySQL 连接，成功与失败均有明确反馈。</p>
+        <div class="Fanhy_nav-go">进入页面 <span>→</span></div>
+      </a>
+
+      <a href="news.html" class="Fanhy_nav-card Fanhy_glass Fanhy_reveal Fanhy_card">
+        <span class="Fanhy_nav-num">02</span>
+        <div class="Fanhy_nav-icon">📰</div>
+        <h3>科技新闻列表</h3>
+        <p>数据库驱动的前沿科技资讯，展示后端接口链接与返回的真实数据内容。</p>
+        <div class="Fanhy_nav-go">进入页面 <span>→</span></div>
+      </a>
+
+      <a href="gallery.html" class="Fanhy_nav-card Fanhy_glass Fanhy_reveal Fanhy_card">
+        <span class="Fanhy_nav-num">03</span>
+        <div class="Fanhy_nav-icon">🖼️</div>
+        <h3>图文列表</h3>
+        <p>瀑布流画廊呈现，图片与文字交织，同样展示接口链接与数据内容。</p>
+        <div class="Fanhy_nav-go">进入页面 <span>→</span></div>
+      </a>
+
+      <a href="guide.html" class="Fanhy_nav-card Fanhy_glass Fanhy_reveal Fanhy_card">
+        <span class="Fanhy_nav-num">04</span>
+        <div class="Fanhy_nav-icon">📖</div>
+        <h3>全栈开发步骤</h3>
+        <p>典藏特效重制的开发流程手册，7 个阶段与核心规则一目了然。</p>
+        <div class="Fanhy_nav-go">进入页面 <span>→</span></div>
+      </a>
+    </div>
+  </section>
+
+  <footer class="Fanhy_footer">
+    <span class="Fanhy_gradient-text">FANHY · COLLECTOR EDITION</span> &nbsp;·&nbsp; 樊宏宇 · 24001010618 &nbsp;·&nbsp; 2026
+  </footer>
+</div>
+
+<script src="js/Fanhy_particles.js"></script>
+<script>
+  /* 姓名：樊宏宇 | 学号：24001010618 | 时间：2026-11-19 | 大模型：Tencent Hunyuan Hy */
+  (function () {
+    // 滚动淡入
+    var Fanhy_reveals = document.querySelectorAll('.Fanhy_reveal');
+    var Fanhy_io = new IntersectionObserver(function (Fanhy_entries) {
+      Fanhy_entries.forEach(function (Fanhy_e) {
+        if (Fanhy_e.isIntersecting) {
+          Fanhy_e.target.classList.add('Fanhy_visible');
+          Fanhy_io.unobserve(Fanhy_e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    Fanhy_reveals.forEach(function (Fanhy_el, Fanhy_i) {
+      Fanhy_el.style.transitionDelay = (Fanhy_i % 5 * 60) + 'ms';
+      Fanhy_io.observe(Fanhy_el);
+    });
+
+    // 卡片光晕跟随鼠标
+    document.querySelectorAll('.Fanhy_card').forEach(function (Fanhy_card) {
+      Fanhy_card.addEventListener('mousemove', function (Fanhy_e) {
+        var Fanhy_r = Fanhy_card.getBoundingClientRect();
+        Fanhy_card.style.setProperty('--Fanhy_mx', ((Fanhy_e.clientX - Fanhy_r.left) / Fanhy_r.width * 100) + '%');
+        Fanhy_card.style.setProperty('--Fanhy_my', ((Fanhy_e.clientY - Fanhy_r.top) / Fanhy_r.height * 100) + '%');
+      });
+    });
+
+    console.log('%c[Fanhy] 典藏展厅已加载 · 樊宏宇 24001010618', 'color:#4de3ff;font-size:13px;');
+  })();
+</script>
+</body>
+</html>
